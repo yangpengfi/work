@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>JavaScript封装的平滑图片滚动</title>
+<style type="text/css">
+body{ font-size:12px; color:#333;}
+#picBox{width:610px; height:205px; margin:50px auto; overflow:hidden; position:relative;}
+#picBox ul#show_pic{ margin:0; padding:0; list-style:none; height:205px; width:3050px; position:absolute;}
+#picBox ul#show_pic li{ float:left; margin:0; padding:0; height:205px;}
+#picBox ul#show_pic li img{ display:block;}
+#icon_num{ position:absolute; bottom:0px; right:10px;}
+#icon_num li{ float:left; background:url(http://pc.qq.com/pc/images/flashbutton.gif) no-repeat -15px 0;width:15px; height:15px; list-style:none; color:#39F; text-align:center;  cursor:pointer; padding:0; margin:0;margin-right:5px;}
+#icon_num li:hover,#icon_num li.active{ background:url(http://pc.qq.com/pc/images/flashbutton.gif) no-repeat 0 0; color:#fff;}
+#picBox_top{width:610px; height:205px; margin:50px auto; position:relative; overflow:hidden;}
+#picBox_top ul#show_pic_top{ margin:0; padding:0; list-style:none; height:205px; width:610px; position:absolute;}
+#picBox_top ul#show_pic_top li{ float:left; margin:0; padding:0; height:205px;}
+#picBox_top ul#show_pic_top li img{ display:block;}
+#icon_num_top{ position:absolute; bottom:0px; right:10px;}
+#icon_num_top li{ float:left; background:url(http://pc.qq.com/pc/images/flashbutton.gif) no-repeat -15px 0;width:15px; height:15px; list-style:none; color:#39F; text-align:center;  cursor:pointer; padding:0; margin:0;margin-right:5px;}
+#icon_num_top li:hover,#icon_num_top li.active{ background:url(http://pc.qq.com/pc/images/flashbutton.gif) no-repeat 0 0; color:#fff;}
+</style>
+</head>
+<body>
+<div id="picBox">
+	<ul id="show_pic" style="left:0;">
+    	<li><img src="1.png" width="610" height="205" alt="" title="" /></li>
+        <li><img src="1.png" width="610" height="205" alt="" title="" /></li>
+        <li><img src="1.png" width="610" height="205" alt="" title="" /></li>
+        <li><img src="1.png" width="610" height="205" alt="" title="" /></li>
+        <li><img src="1.png" width="610" height="205" alt="" title="" /></li>
+    </ul>
+    <ul id="icon_num">
+    	<li class="active">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ul>
+</div>
+<script src="../js/slider.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+glide.layerGlide(true,'icon_num','show_pic',610,5,0.1,'left');
+</script>
+</body>
+</html>
+

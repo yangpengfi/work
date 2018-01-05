@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title> 播放HTTP协议视频 </title>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta name="page-view-size" content="1280*720">
+		<style type="text/css">
+			div {
+				margin-top: 20px;
+				margin-left: 30px;
+			}
+			
+			#sid {
+				margin-top: 50px;
+			}
+		</style>
+	</head>
+
+	<!--<body style="background:url('1.jpg')" onunload="_unLoad()">-->
+
+	<body onunload="_unLoad()" style="background: white;">
+		<div id="sid">调用</div>
+		<div id="volume">音量</div>
+		<div id="info">&nbsp;</div>
+		<div id="result">&nbsp;</div>
+
+		<script type="text/javascript" src="../js/1common.js"></script>
+		<script type="text/javascript" src="../js/2core.js"></script>
+		<script type="text/javascript" src="../js/3key.js"></script>
+		<script type="text/javascript" src="../js/4navigation.js"></script>
+		<script type="text/javascript" src="../js/5page.js"></script>
+		<script type="text/javascript" src="../js/6ipanel.js"></script>
+		<script type="text/javascript" src="../js/6ngb_h.js"></script>
+		<script type="text/javascript" src="../js/6pc.js"></script>
+		<script type="text/javascript" src="../js/6shdv.js"></script>
+		<script type="text/javascript" src="../js/7msg.js"></script>
+		<script type="text/javascript" src="../js/8stb.js"></script>
+		<script type="text/javascript" src="../js/10ocn_media_player.js"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+
+				function callback_end() {
+
+					//document.getElementById("sid").innerHTML = "调用了";
+				}
+
+				function _unLoad() {
+					ntv.stb.mediaplayer.stop();
+				}
+
+				document.onkeydown = grabEvent;
+				document.onirkeypress = grabEvent;
+
+				var pause = false;
+				var mute = true;
+
+				function grabEvent() {
+
+					　
+					keycode = event.which;　
+					document.getElementById("sid").innerHTML = keycode;
+
+					switch(keycode) {
+
+						　　
+						case 13: //ok播放 ipanel
+						case 4097:
+							//var videos = ["http://172.11.7.64/ocn-video/3.mp4","http://172.11.7.64/ocn-video/1.mp4"];
+//							var videos = ['http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'http://shfc-file.oss-cn-shanghai.aliyuncs.com/supervision/%E6%A5%BC%E5%B8%82%E8%B0%83%E6%8E%A7%E2%80%9C%E6%B2%AA%E5%85%AD%E6%9D%A1%E2%80%9D%E5%85%AC%E5%B8%8310_09-%E5%9B%BD%E8%AF%AD1080P.mp4'];
+//							var videos = ['http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4', 'http://shfc-file.oss-cn-shanghai.aliyuncs.com/supervision/%E6%A5%BC%E5%B8%82%E8%B0%83%E6%8E%A7%E2%80%9C%E6%B2%AA%E5%85%AD%E6%9D%A1%E2%80%9D%E5%85%AC%E5%B8%8310_09-%E5%9B%BD%E8%AF%AD1080P.mp4'];
+//							var videos = ['http://shfc-file.oss-cn-shanghai.aliyuncs.com/supervision/%E6%A5%BC%E5%B8%82%E8%B0%83%E6%8E%A7%E2%80%9C%E6%B2%AA%E5%85%AD%E6%9D%A1%E2%80%9D%E5%85%AC%E5%B8%8310_09-%E5%9B%BD%E8%AF%AD1080P.mp4', 'http://shfcjr-file.oss-cn-shanghai.aliyuncs.com/supervision/%E6%A5%BC%E5%B8%82%E8%B0%83%E6%8E%A7%E2%80%9C%E6%B2%AA%E5%85%AD%E6%9D%A1%E2%80%9D%E5%85%AC%E5%B8%8310_09-%E5%9B%BD%E8%AF%AD1080P.mp4'];
+							var videos = ['http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'];
+//							ocnmediaplayer(300, 100, 400, 400, videos, "play", "continue", callback_end);
+							ocnmediaplayer(0, 0, 1280, 720, videos, "play", "continue", callback_end);
+							//ntv.stb.mediaplayer.position(400,100,400,400);
+							//ntv.stb.mediaplayer.play("HTTP",videos);
+							
+							document.getElementById("info").innerHTML = "开始播放";　　　　
+							break;
+
+						case 595: //音量大
+						case 38:
+						case 1:
+							var currVolume = ntv.stb.mediaplayer.getVolume();　　　
+							document.getElementById("volume").style.display = "";
+							currVolume = currVolume + 10;
+							ntv.stb.mediaplayer.setVolume(currVolume);　　　
+							document.getElementById("volume").innerHTML = currVolume;　　　
+							setTimeout(function() {
+								document.getElementById("volume").style.display = "none";
+							}, 3000);　
+							break;　　　
+						case 596: //音量小
+						case 40: //音量小
+						case 2:
+
+							var currVolume = ntv.stb.mediaplayer.getVolume();　　　
+							document.getElementById("volume").style.display = "";　　　
+							currVolume = currVolume - 10;
+							ntv.stb.mediaplayer.setVolume(currVolume);　　
+							document.getElementById("volume").innerHTML = currVolume;
+							setTimeout(function() {
+								document.getElementById("volume").style.display = "none";
+							}, 3000);　　
+							break;
+
+							　　
+						case 597: //静音／解除静音
+						case 4108:
+							document.getElementById("result").innerHTML = mute;
+							if(mute) {
+
+								ntv.stb.mediaplayer.setVolume(0);
+								mute = false;
+								//document.getElementById("result").innerHTML=mute;
+							} else {
+								ntv.stb.mediaplayer.setVolume(currVolume);
+								mute = true;
+								//document.getElementById("result").innerHTML= mute;
+							}
+							break;
+						case 71:
+						case 833: //播放／暂停
+						case 2306: //暂停
+							if(pause) {
+								ntv.stb.mediaplayer.resume();
+								pause = false;
+								//document.getElementById("info").innerHTML ="→" ;
+							} else {
+								ntv.stb.mediaplayer.pause();
+								//document.getElementById("info").innerHTML ="||" ;
+								pause = true;
+							};
+
+							break;
+						case 89:
+						case 834: //停止
+						case 2307: //停止
+
+							ntv.stb.mediaplayer.stop();
+							break;
+						case 81:
+						case 835: //快进
+						case 2308: //快进
+							ntv.stb.mediaplayer.seekSecond(30);
+							break;
+
+						case 66: //倒退
+						case 832: //倒退
+						case 2305: //快退
+
+							ntv.stb.mediaplayer.seekSecond(-30);
+
+							break;
+						case 338:
+						case 403:
+							location.reload();
+							break;
+
+					}
+
+				}
+			}
+		</script>
+	</body>
+
+</html>

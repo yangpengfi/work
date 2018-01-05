@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> 商品首页 </title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="page-view-size" content="1280×720">
+    <link rel="stylesheet" href="../css/ntv.css">
+    <link rel="stylesheet" href="../css/app.css">
+    <style>
+        .banner img{width: 200%;}
+        .nav-bar img,.layout-content img{width:100%;}
+        .list{margin:100px 100px;}
+        .list ul{clear: both;}
+        .list li{float: left; width: 100px; height: 100px; margin: 50px 50px;}
+        /*#console{top:1000px;}*/
+    </style>
+</head>
+<body>
+<div class="container product-index list">
+<!--<h1>按键测试</h1>
+    <ul>
+        <li><a href="lunbo.html">轮播</a></li>
+        <li><a href="lunbo1.html">轮播1</a></li>
+        <li><a href="lunbo2.html">轮播2</a></li>
+    </ul>
+
+    <ul>
+        <li><a href="lunbo.html">轮播</a></li>
+        <li><a href="lunbo1.html">轮播1</a></li>
+        <li><a href="lunbo2.html">轮播2</a></li>
+    </ul>
+
+    <ul>
+        <li><a href="lunbo.html">轮播</a></li>
+        <li><a href="lunbo1.html">轮播1</a></li>
+        <li><a href="lunbo2.html">轮播2</a></li>
+    </ul>-->
+
+    <section class="layout-top-bar">
+        <div class="pos-abs logo"><img src="../images/common/logo.png" alt=""></div>
+        <div class="pos-abs banner"><img src="../images/common/banner.png" alt=""></div>
+        <div class="pos-abs nav-bar">
+            <ul>
+                <li><img src="../images/common/nav_item1.png" alt="11" name="sale.html"></li>
+                <li><img src="../images/common/nav_item6.png" alt="12" name="product-index.html"></li>
+                <li><img src="../images/common/nav_item2.png" alt="13" name="cart.html"></li>
+                <li><img src="../images/common/nav_item3.png" alt="14" name=""></li>
+                <li><img src="../images/common/nav_item4.png" alt="15" name=""></li>
+                <li><img src="../images/common/nav_item5.png" alt="16" name="help.html"></li>
+            </ul>
+            <div class="float-clear"></div>
+        </div>
+    </section>
+
+    <section class="layout-content">
+        <div class="pos-abs content">
+            <div class="category">
+                <div class="pre-btn"><img src="../images/product/pre_btn.png" alt=""></div>
+                <ul>
+                    <li><img src="../images/test/category1.png"></li>
+                    <li><img src="../images/test/category2.png"></li>
+                    <li><img src="../images/test/category3.png"></li>
+                    <li><img src="../images/test/category4.png"></li>
+                    <li><img src="../images/test/category5.png"></li>
+                </ul>
+                <div class="pos-rel next-btn"><img src="../images/product/next_btn.png" alt=""></div>
+                <div class="float-clear"></div>
+            </div>
+
+            <div class="line"></div>
+
+            <div class="ad">
+                <ul>
+                    <li><img src="../images/test/product_index_ad1.png"></li>
+                    <li><img src="../images/test/product_index_ad2.png"></li>
+                    <li><img src="../images/test/product_index_ad3.png"></li>
+                </ul>
+                <div class="float-clear"></div>
+            </div>
+        </div>
+    </section>
+
+
+     <!--页面焦点元素 start-->
+    <section class="layout-focus">
+        <div class="pos-abs category-f">
+            <ul>
+                <li><img src="../images/product/category_item.png" alt="21" name="product-list.html"></li>
+                <li><img src="../images/product/category_item.png" alt="22" name="product-list.html"></li>
+                <li><img src="../images/product/category_item.png" alt="23" name="product-list.html"></li>
+                <li><img src="../images/product/category_item.png" alt="24" name="product-list.html"></li>
+                <li><img src="../images/product/category_item.png" alt="25,26" name="product-list.html"></li>
+            </ul>
+            <div class="float-clear"></div>
+        </div>
+
+        <div class="pos-abs ad-f">
+            <ul>
+                <li><img src="../images/product/ad_item.png" alt="31,32"></li>
+                <li><img src="../images/product/ad_item.png" alt="33,34"></li>
+                <li><img src="../images/product/ad_item.png" alt="35,36"></li>
+            </ul>
+            <div class="float-clear"></div>
+        </div>
+    </section>
+     <!--页面焦点元素 end-->
+
+</div>
+<!--Script
+====================================================== -->
+<script type="text/javascript" src="../js/1common.js"></script>
+<script type="text/javascript" src="../js/2core.js"></script>
+<script type="text/javascript" src="../js/3key.js"></script>
+<script type="text/javascript" src="../js/4navigation.js"></script>
+<script type="text/javascript" src="../js/5page.js"></script>
+<script type="text/javascript" src="../js/6ipanel.js"></script>
+<script type="text/javascript" src="../js/6ngb_h.js"></script>
+<script type="text/javascript" src="../js/6pc.js"></script>
+<script type="text/javascript" src="../js/6shdv.js"></script>
+<script type="text/javascript" src="../js/7msg.js"></script>
+<script type="text/javascript" src="../js/8stb.js"></script>
+<script type="text/javascript" src="../js/effect/effect-slidemenu.js"></script>
+<script type="text/javascript">
+
+    var set_listen_handle = function(keycode){
+        switch(keycode)
+        {
+            case ntv.key.keycode.KEY_UP:
+                // to do
+                alert('按了上键');
+                break;
+            case ntv.key.keycode.KEY_DOWN:
+                // to do
+                alert('按了下键');
+                break;
+            case ntv.key.keycode.KEY_LEFT:
+                // to do
+                alert('按了左键');
+                break;
+            case ntv.key.keycode.KEY_RIGHT:
+                // to do
+                alert('按了右键');
+                break;
+            case ntv.key.keycode.KEY_REFRESH:
+                // to do
+                alert('按了刷新键');
+                break;
+            case ntv.key.keycode.KEY_OK:
+                // to do
+                alert('按了ok键');
+                break;
+        }
+    };
+    (function(){
+        ntv.log.debug = true;             // 是否开启调试模式。
+        //ntv.profile.info();
+        //ntv.log.alert("info=>"+ntv.profile.info() );
+        //ntv.log.console("info=>" +ntv.profile.info());
+        //ntv.profile.info();
+        //ntv.key.keypress(event);
+        ntv.key.keypress_handle = set_listen_handle;
+        //document.getElementById('ipt').innerHTML="abssfd:"+navigator.userAgent;
+        //$('#ipts').innerHTML="info:"+ntv.profile.info();
+        //alert('按了ok键');
+    })();
+</script>
+</body>
+</html>

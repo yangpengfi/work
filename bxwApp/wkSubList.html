@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title> 同步知识点微课 </title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <link rel="stylesheet" href="css/ntv.css">
+    <link rel="stylesheet" href="css/base.css">
+    <style>
+        ul{
+            clear: both;
+        }
+        .active{
+            -webkit-box-shadow: 0 0 8px 1px #00b2ed inset;
+            -moz-box-shadow: 0 0 8px 1px #00b2ed inset;
+            box-shadow: 0 0 8px 1px #00b2ed inset;
+            border:1px solid #00b2ed;
+            border-radius: 4px;
+        }
+        #contents{
+            position: absolute;
+            top:145px;
+            left: 105px;
+        }
+        #contents ul{
+            clear: both;
+            height: 480px;
+            overflow: auto;
+        }
+        #contents li{
+            float: left;
+            width: 226px;
+            height: 146px;
+            border: 1px solid #87d5ff;
+            padding: 60px 15px 0;
+            margin-right: 14px;
+            margin-bottom: 14px;
+            background-color:rgba(255,255,255,.1) ;
+            text-align: center;
+            color:#fff;
+        }
+        #contents li p{
+            margin-bottom: 10px;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+        .select{
+            -webkit-box-shadow: 0 0 8px 2px #00b2ed inset;
+            -moz-box-shadow: 0 0 8px 2px #00b2ed inset;
+            box-shadow: 0 0 8px 2px #00b2ed inset;
+            border:1px solid #00b2ed;
+            border-radius: 4px;
+            color:#00b2ed;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="background: url('img/index/background.jpg') no-repeat;">
+    <img src="img/index/TVlogo.png" alt="筛选图标" style="position: absolute;top:60px;left:105px;"/>
+    <span style="position:absolute;left:613px;top:70px;font-size: 28px;color: #fff;" id="title">微课</span>
+    <div id="contents">
+        <ul>
+            <!--<li>
+                <p>三角函数</p>
+                <p>知识点专题</p>
+                <img src="img/index/mathenatics.png" alt="mathLogo"/>
+            </li>
+            <li>
+                <p>三角函数</p>
+                <p>知识点专题</p>
+                <img src="img/index/mathenatics.png" alt="mathLogo"/>
+            </li>
+            <li>
+                <p>三角函数</p>
+                <p>知识点专题</p>
+                <img src="img/index/mathenatics.png" alt="mathLogo"/>
+            </li>
+            <li>
+                <p>三角函数</p>
+                <p>知识点专题</p>
+                <img src="img/index/mathenatics.png" alt="mathLogo"/>
+            </li>-->
+        </ul>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="js/myAjax.js"></script>
+<script type="text/javascript">
+
+    (function(){
+        //ntv.log.debug = true;   // 是否开启调试模式。
+
+        var html=localStorage.getItem('subList');
+        $('#contents ul').empty().append(html);
+        $("#title").text(localStorage.getItem('title'));
+        /**
+         * 微课点击事件
+         * */
+        $('#contents>ul').on('click','li',function(){
+            var resourceId=$(this).attr('data-resourceId');
+            $(this).addClass('select').siblings().removeClass();
+            var params={
+                token:token,
+                resourceId:resourceId
+            };
+            $.ajax({
+                url:'http://192.168.8.251/banxue/app/microcourse/a/getResourceDetail.do',
+                type:'POST',
+                data:params,
+                success:function(data){
+                    console.log(data)
+                    location.href="details.html";
+                    localStorage.setItem("data",JSON.stringify(data.data));
+                }
+            });
+        })
+    })();
+</script>
+</body>
+</html>

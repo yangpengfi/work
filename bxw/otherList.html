@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title> 同步知识点微课 </title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <link rel="stylesheet" href="css/ntv.css">
+    <link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+<div class="container pos-abs" >
+    <img src="img/index/TVlogo.png"  id="leftLogo">
+    <span id="title">奥数全能解法及解析</span>
+    <div id="subCenterList">
+        <ul>
+            <li data-resourceid="4581"><img src="img/bigAct.png" alt="11" data-type="2">
+                <p class="knowledgePoint">01 比和比例</p><img src="img/index/sub_mathsmall.png" alt="mathLogo">
+            </li>
+            <li data-resourceid="4590"><img src="img/bigAct.png" alt="12" data-type="2">
+                <p class="knowledgePoint">02 抽屉原理</p><img src="img/index/sub_mathsmall.png" alt="mathLogo">
+            </li>
+            <li data-resourceid="4600"><img src="img/bigAct.png" alt="13" data-type="2">
+                <p class="knowledgePoint">03 定义新运算</p><img src="img/index/sub_mathsmall.png" alt="mathLogo">
+            </li>
+            <li data-resourceid="4601"><img src="img/bigAct.png" alt="14" data-type="2">
+                <p class="knowledgePoint">04 分数百分数的应用</p><img src="img/index/sub_mathsmall.png" alt="mathLogo">
+            </li>
+            <li data-resourceid="4602"><img src="img/bigAct.png" alt="15" data-type="2">
+                <p class="knowledgePoint">05 分数拆分</p><img src="img/index/sub_mathsmall.png" alt="mathLogo">
+            </li>
+            <li data-resourceid="4603"><img src="img/bigAct.png" alt="16" data-type="2">
+                <p class="knowledgePoint">06 分数大小的比较</p><img src="img/index/sub_mathsmall.png" alt="mathLogo">
+            </li>
+            <li data-resourceid="4604"><img src="img/bigAct.png" alt="17" data-type="2">
+                <p class="knowledgePoint">07 工程问题</p><img src="img/index/sub_mathsmall.png" alt="mathLogo">
+            </li>
+            <li data-resourceid="4605"><img src="img/bigAct.png" alt="18" data-type="2">
+                <p class="knowledgePoint">08 归一问题的特点</p><img src="img/index/sub_mathsmall.png" alt="mathLogo">
+            </li>
+        </ul>
+    </div>
+    <div id="pageBar">
+        <span style="position:absolute;left:20px;top:-5px;" id="currPage">1</span>/
+        <span style="font-size:18px;position:absolute;left:50px;top:15px;" id="totalPage">1</span>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/config.js"></script>
+<script type="text/javascript">
+     var params={
+        token:token,
+        gradeId:1,
+        subjectId:2,
+        themeId:1,
+        pageSize:8,
+        pageIndex:1
+     };
+     getData(params,'/app/microcourse/a/getResourceList.do',setSubCenterList);
+    var set_listen_handle = function(keycode){
+        var coord=parseInt(ntv.navigation.coord);
+        var currPage=parseInt(banxue("#currPage").text());
+        var totalPage=parseInt(banxue("#totalPage").text());
+        var code = keycode.code;
+        switch(code){
+            case "KEY_UP":
+                coord-=4;
+                    if(coord<11&&currPage>1){
+                        banxue("#currPage").text(currPage-1);
+                        ntv.navigation.move_focus(coord+8);
+                        params.pageIndex-=1;
+                        getData(params,'/app/microcourse/a/getResourceList.do',setSubCenterList);
+                    }
+                ntv.navigation.move_focus(coord);
+                break;
+            case "KEY_DOWN":
+                coord+=4;
+                if(coord>18&&currPage<totalPage){
+                    params.pageIndex+=1;
+                    getData(params,'/app/microcourse/a/getResourceList.do',setSubCenterList);
+                    banxue("#currPage").text(currPage+1);
+                    if(currPage+1==totalPage){
+                        ntv.navigation.move_focus(11);
+                    }else{
+                        ntv.navigation.move_focus(coord-8);
+                    }
+                }
+                ntv.navigation.move_focus(coord);
+                break;
+            case "KEY_OK":
+                location.href="details.html";
+                break;
+        }
+    };
+    function conso_coordfunction(coord){
+        //console.log(coord);
+        var el=ntv.navigation.getElmByCoord(coord);
+        //console.log(el);
+        sessionStorage.setItem('resourceid',banxue(el).parent().attr('data-resourceid'))
+    };
+    (function(){
+        ntv.key.keypress_handle = set_listen_handle;
+        ntv.navigation.move_done_callback = conso_coordfunction;
+    })();
+</script>
+</body>
+</html>

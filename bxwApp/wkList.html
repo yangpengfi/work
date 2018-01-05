@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title> 同步知识点微课 </title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <link rel="stylesheet" href="css/ntv.css">
+    <link rel="stylesheet" href="css/base.css">
+    <style>
+        ul{
+            clear: both;
+        }
+        #sideList{
+            position: absolute;
+            top:137px;
+            left: 105px;
+        }
+        #sideList li{
+            width: 154px;
+            height: 54px;
+            line-height: 54px;
+            padding: 0 10px;
+            text-align: center;
+            color:#f3f8fd;
+            font-size: 20px;
+        }
+        /*#sideList li a{
+            padding: 14px 10px;
+            color:#f3f8fd;
+            font-size: 20px;
+        }*/
+        #sideList li span{
+            color:#f3f8fd;
+            font-size: 16px;
+        }
+        .active{
+            -webkit-box-shadow: 0 0 8px 1px #00b2ed inset;
+            -moz-box-shadow: 0 0 8px 1px #00b2ed inset;
+            box-shadow: 0 0 8px 1px #00b2ed inset;
+            border:1px solid #00b2ed;
+            border-radius: 4px;
+        }
+        #content{
+            position: absolute;
+            top:137px;
+            left: 310px;
+        }
+        #content ul{
+            clear: both;
+            height: 480px;
+            overflow: auto;
+        }
+        #content li{
+            float: left;
+            width: 176px;
+            height: 146px;
+            border: 1px solid #87d5ff;
+            padding: 60px 15px 0;
+            margin-right: 14px;
+            margin-bottom: 14px;
+            background-color:rgba(255,255,255,.1) ;
+            text-align: center;
+            color:#fff;
+        }
+        #content li p{
+            margin-bottom: 10px;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+        #footer{
+            position: absolute;
+            top:720px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding-left: 140px;
+            background-color:#171717;
+            color:#bbbbbb;
+        }
+        #footer li{
+            float: left;
+            padding:8px 13px;
+            margin:10px 20px;
+            cursor: pointer;
+        }
+        #footer li span{
+            padding-left: 30px;
+        }
+        .select{
+            -webkit-box-shadow: 0 0 8px 2px #00b2ed inset;
+            -moz-box-shadow: 0 0 8px 2px #00b2ed inset;
+            box-shadow: 0 0 8px 2px #00b2ed inset;
+            border:1px solid #00b2ed;
+            border-radius: 4px;
+            color:#00b2ed;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="background: url('img/index/background.jpg') no-repeat;">
+    <div id="header" style="position: absolute;top:53px;left: 105px;">
+        <img src="img/index/screening.png" alt="筛选图标" style="vertical-align:middle;"/>
+        <span style="font-size: 24px;color:#f3f8fd;margin-left: 20px;" id="textCont" data-grade="8">初二年级</span>
+    </div>
+    <span style="position:absolute;left:613px;top:70px;font-size: 28px;color: #fff;" id="title">微课</span>
+    <ul id="sideList">
+        <li data-id="1" data-gradeid="8" class="active">语文</li>
+        <li data-id="2" data-gradeid="8">数学</li>
+        <li data-id="3" data-gradeid="8">英语</li>
+        <li data-id="4" data-gradeid="8">物理</li>
+        <li data-id="6" data-gradeid="8">地理</li>
+        <li data-id="7" data-gradeid="8">历史</li>
+        <li data-id="9" data-gradeid="8">生物</li>
+        <li data-id="12" data-gradeid="8">思想品德</li>
+    </ul>
+    <div id="content">
+        <ul>
+            <li data-topicid="150" data-subjectid="1" data-gradeid="8"><p>课外古诗词诵读</p><img src="img/index/sub_chinesesmall.png" alt="mathLogo" /></li>
+            <li data-topicid="151" data-subjectid="1" data-gradeid="8"><p>阅读鉴赏上</p><img src="img/index/sub_chinesesmall.png" alt="mathLogo" /></li>
+            <li data-topicid="152" data-subjectid="1" data-gradeid="8"><p>阅读鉴赏下</p><img src="img/index/sub_chinesesmall.png" alt="mathLogo" /></li>
+        </ul>
+    </div>
+    <div id="footer">
+        <ul>
+            <li>小学 <span>|</span></li>
+            <li data-grade="1">一年级</li>
+            <li data-grade="2">二年级</li>
+            <li data-grade="3">三年级</li>
+            <li data-grade="4">四年级</li>
+            <li data-grade="5">五年级</li>
+            <li data-grade="6">六年级</li>
+        </ul>
+        <ul>
+            <li>初中 <span>|</span></li>
+            <li data-grade="7">初一年级</li>
+            <li data-grade="8">初二年级</li>
+            <li data-grade="9">初三年级</li>
+        </ul>
+        <ul>
+            <li>高中 <span>|</span></li>
+            <li data-grade="10">高一年级</li>
+            <li data-grade="11">高二年级</li>
+            <li data-grade="12">高三年级</li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="js/myAjax.js"></script>
+<script type="text/javascript">
+
+    (function(){
+        //ntv.log.debug = true;   // 是否开启调试模式。
+        var contentLi=localStorage.getItem('contentLi');
+        $('#content ul').empty().append(contentLi);
+        var leftList=localStorage.getItem('leftList');
+        $('#sideList').empty().append(leftList);
+        $("#title").text(localStorage.getItem('title'));
+        var greadIds=localStorage.getItem("grade")
+        //console.log($('#footer li[data-grade='+greadIds+']'));
+        $("#textCont").text($('#footer li[data-grade='+greadIds+']').text());
+        $('#sideList li').eq(localStorage.getItem('liIdex')).addClass("active").siblings().removeClass();
+        /**
+         * 测导航点击事件
+         * */
+        $("#sideList").on("click","li",function(){
+            $(this).addClass("active").siblings().removeClass();
+            localStorage.setItem("liIdex",$(this).index());
+            var subjectId=$(this).attr('data-id');
+            var gradeId=$(this).attr('data-gradeId');
+            var versionId=$(this).attr('data-versionId');
+            var params={
+                token:token,
+                gradeId:gradeId,
+                subjectId:subjectId,
+                versionId:versionId,
+                pageSize:100
+            };
+            getList(params);
+        });
+
+        /**
+         * 筛选弹出层
+         * */
+        $('#header').click(function(){
+            $("#footer li").removeClass();
+            $('#footer').animate({
+                'top':'540px'
+            },500)
+        });
+        /**
+         * 筛选点击事件
+         * */
+        $('#footer>ul').on('click','li:gt(0)',function(){
+            var gradeId=$(this).attr('data-grade');
+            $(this).addClass('select').siblings().removeClass();
+            $('#textCont').text($(this).text()).attr('data-grade',gradeId);
+            $('#footer').animate({
+                'top':'720px'
+            },500);
+            var params={
+                token:token,
+                gradeId:gradeId
+            };
+            /*$.ajax({
+                url:'http://192.168.8.251/banxue/app/microcourse/a/getSubjectList4Tv.do',
+                type:'POST',
+                data:params,
+                success:function(data){
+                    //console.log(data)
+                    var html='';
+                    if(data.data.length){
+                        $('#sideList').empty();
+                        $.each(data.data,function(key,val){
+                            if(key==0&&gradeId<=6){
+                                html+='<li class="active" data-id="'+val.id+'" data-gradeId="'+gradeId+'" data-versionId="'+val.versionId+'" style="text-align:left;">'+val.name+'&nbsp;<span>'+val.versionName+'</span></li>';
+                                params.subjectId=val.id;
+                                params.versionId=val.versionId;
+                                params.pageSize=100;
+                            }else if(key==0&&gradeId>6){
+                                html+='<li class="active" data-id="'+val.id+'" data-gradeId="'+gradeId+'" data-versionId="'+val.versionId+'">'+val.name+'</li>';
+                                params.subjectId=val.id;
+                                params.versionId=val.versionId;
+                                params.pageSize=100;
+                            }else if(key>0&&gradeId<=6){
+                                html+='<li data-id="'+val.id+'" data-gradeId="'+gradeId+'" data-versionId="'+val.versionId+'" style="text-align:left;">'+val.name+'&nbsp;<span>'+val.versionName+'</span></li>';
+                            }else if(key>0&&gradeId>6){
+                                html+='<li data-id="'+val.id+'" data-gradeId="'+gradeId+'" data-versionId="'+val.versionId+'">'+val.name+'</li>';
+                            }
+                        });
+                        $('#sideList').append(html);
+                        getList(params);
+                    }else{
+                        alert("暂无此年级相关课程，敬请期待！")
+                    }
+                }
+            });*/
+            getLeftList(params)
+        })
+        /**
+         * 微课点击事件
+         * */
+        $('#content>ul').on('click','li',function(){
+            //console.log($(this).attr('data-resourceId')!=undefined);
+            if($(this).attr('data-resourceId')!=undefined){
+                var resourceId=$(this).attr('data-resourceId');
+                $(this).addClass('select').siblings().removeClass();
+                var params={
+                    token:token,
+                    resourceId:resourceId
+                };
+                /*getAjax(params,'app/microcourse/a/getResourceDetail.do',function(data){
+                    //console.log(data)
+                    location.href="details.html";
+                    localStorage.setItem("data",JSON.stringify(data.data));
+                });*/
+                $.ajax({
+                 url:'http://192.168.8.251/banxue/app/microcourse/a/getResourceDetail.do',
+                 type:'POST',
+                 data:params,
+                 success:function(data){
+                 console.log(data)
+                 location.href="details.html";
+                 localStorage.setItem("data",JSON.stringify(data.data));
+                 }
+                 });
+            }else{
+
+                var gradeId=$(this).attr('data-gradeId');
+                var subjectId=$(this).attr('data-subjectId');
+                var topicId=$(this).attr('data-topicid');
+                $(this).addClass('select').siblings().removeClass();
+                var params={
+                    token:token,
+                    gradeId:gradeId,
+                    subjectId:subjectId,
+                    topicId:topicId,
+                    pageSize:100
+                };
+                $.ajax({
+                    url:'http://192.168.8.251/banxue/app/microcourse/a/getResourceList.do',
+                    type:'POST',
+                    data:params,
+                    success:function(data){
+                        //console.log(data)
+                        location.href="wkSubList.html";
+                        var html='';
+                        $.each(data.data,function(key,val){
+                            html+='<li data-resourceId="'+val.resourceId+'">'+
+                                    '<p>'+val.knowledgePoint+'</p>'+
+                                    '<img src="img/index/'+imgArr[subjectId-1]+'" alt="mathLogo"/>'+
+                                    '</li>';
+                        })
+                        localStorage.setItem("subList",html)
+                    }
+                });
+            }
+
+        })
+        /**
+         * 获取子列表函数
+         * */
+        /*function getSubList(params,url,callback){
+            $.ajax({
+                url:'http://192.168.8.251/banxue/app/microcourse/a/'+url,
+                type:'POST',
+                data:params,
+                success:function(data){
+                    //console.log(data)
+                    var html='';
+                    $.each(data.data,function(key,val){
+                        html+='<li data-resourceId="'+val.resourceId+'">'+
+                                '<p>'+val.knowledgePoint+'</p>'+
+                                '<img src="img/index/'+imgArr[subjectId-1]+'" alt="mathLogo"/>'+
+                                '</li>';
+                    })
+                    localStorage.setItem("subList",html)
+                }
+            });
+        }*/
+    })();
+</script>
+</body>
+</html>

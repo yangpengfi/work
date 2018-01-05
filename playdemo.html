@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>没有什么鬼</h1>
+<object  classid = “clsid：9BE31822-FDAD-461B-AD51-BE1D1C159921”
+         codebase = “http://download.videolan.org/pub/videolan/vlc/last/win32/axvlc.cab”
+         id = “vlc”
+         width="720"
+         height="640">
+<embed  type = “application/x-vlc-plugin”
+        pluginspage = “http://www.videolan.org”
+        name = “vlc”
+        width="720"
+        height="640"/>
+</object>
+<script>
+    var vlc=document.getElementById("vlc");
+    vlc.audio.toggleMute();
+</script>
+</body>
+</html>

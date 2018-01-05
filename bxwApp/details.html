@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>详情页</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <link rel="stylesheet" href="css/ntv.css">
+    <link rel="stylesheet" href="css/base.css">
+    <style>
+        #contentLift{
+            position: absolute;
+            top:138px;
+            left: 105px;
+            width: 367px;
+            height: 345px;
+            padding:56px 30px 25px;
+            font-size: 24px;
+            text-align: center;
+            color:#f3f8fd;
+            background-color: rgba(255,255,255,.1);
+        }
+        #topic{
+            margin-bottom: 34px;
+        }
+        #knowledgePoint,#lecturer{
+            margin-bottom: 22px;
+        }
+        #contentRight{
+            position: absolute;
+            top:138px;
+            left: 580px;
+            width: 594px;
+            font-size: 24px;
+            text-align: left;
+            color:#f3f8fd;
+        }
+        #contentRight>img{
+            margin-bottom:24px;
+        }
+        .atcInfo{
+            font-size: 20px;
+            text-indent: 4em;
+        }
+        .actTitle{
+            padding:24px 0;border-bottom: 1px solid rgba(255,255,255,.1);margin-bottom: 24px;
+        }
+        .actTitle img{
+            vertical-align: middle;
+            margin-right:30px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="background: url('img/index/background.jpg') no-repeat;">
+    <img src="img/index/TVlogo.png" alt="筛选图标" style="position: absolute;top:60px;left:105px;"/>
+    <div id="contentLift">
+        <p id="topic">课外古诗词诵读</p>
+        <p id="knowledgePoint">第一讲 XXXXXX</p>
+        <p id="lecturer">讲师 XXX</p>
+        <img src="img/index/sub_biologybig.png" alt="课程图标" id="courIcon"/>
+    </div>
+    <div id="contentRight">
+        <img src="img/index/watchclass.png" alt="点击观看" id="playBtn"/>
+        <p class="actTitle">
+            <img src="img/index/microclassname.png" alt="课程名称"/>
+            <span>课程名称</span>
+        </p>
+        <p id="videoIntro" class="atcInfo">课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗词诵读</p>
+        <p class="actTitle">
+            <img src="img/index/teacherifo.png" alt="讲师介绍"/>
+            <span>讲师介绍</span>
+        </p>
+        <p id="lecturerIntro" class="atcInfo">课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗词诵读课外古诗</p>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="js/myAjax.js"></script>
+<script type="text/javascript">
+
+    (function(){
+        //ntv.log.debug = true;             // 是否开启调试模式。
+        var data=JSON.parse(localStorage.getItem('data'));
+        console.log(data)
+        $('#topic').html((data.topic=="全部")?'':data.topic);
+        $('#knowledgePoint').html(data.knowledgePoint);
+        $('#lecturer').html(data.lecturer);
+        $('#courIcon').attr('src','img/index/'+imgBigArr[data.subjectId-1]);
+        $('#videoIntro').html(data.videoIntro);
+        $('#lecturerIntro').html(data.lecturerIntro);
+        $('#playBtn').attr('data-url',data.videoUrl);
+        $('#playBtn').click(function(){
+            localStorage.setItem('videoUrl',data.videoUrl);
+            location.href="player.html"
+        })
+    })();
+</script>
+</body>
+</html>

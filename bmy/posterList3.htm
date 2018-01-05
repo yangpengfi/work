@@ -1,0 +1,582 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>版式3</title>
+</head>
+
+<body style="background:transparent url(bg3.png) no-repeat;">
+    <!--titile-->
+    <img src="" style="position:absolute;left:336px;top:52px;" id="title_Icon" />
+    <!--左侧视频信息-->
+    <img src="videoImg.png" style="position:absolute;left:81px;top:143px;" id="smallPlayBg" />
+    <div style="position:absolute;left:81px;top:143px;background:url(video_cover.png);width:650px;height:438px; visibility: hidden;" id="smallPlaySuccess">
+        <img src="video_bar.png" style="position:absolute;left:274px;top:148px;" />
+        <span style="position:absolute;left:197px;top:263px;color:#fff45c;font-size:25px;">按【确认键】全屏播放</span>
+    </div>
+    <!--顶部返回按钮-->
+    <div style="position:absolute;left:1097px;top:40px; visibility: hidden;" id="returnBtn"><img src="focus_return.png" /></div>
+    <!--右侧内容-->
+    <div style="position:absolute;left:756px;top:143px;background:url(border.png);width:441px;height:438px;color:#535353;font-size:22px;">
+        <table border="0" cellpadding="0" cellspacing="0" width="441" height="407">
+            <tr>
+                <td width="10%" height="60" style="padding-left:14px;"><img src="bar_02.png" /></td>
+                <td width="90%" style="color:#59493f;" id="listData_0"></td>
+            </tr>
+            <tr>
+                <td width="10%" height="56" style="padding-left:14px;"><img src="bar_02.png" /></td>
+                <td width="90%" id="listData_1"></td>
+            </tr>
+            <tr>
+                <td width="10%" height="60" style="padding-left:14px;"><img src="bar_02.png" /></td>
+                <td width="90%" id="listData_2"></td>
+            </tr>
+            <tr>
+                <td width="10%" height="56" style="padding-left:14px;"><img src="bar_02.png" /></td>
+                <td width="90%" id="listData_3"></td>
+            </tr>
+            <tr>
+                <td width="10%" height="56" style="padding-left:14px;"><img src="bar_02.png" /></td>
+                <td width="90%" id="listData_4"></td>
+            </tr>
+            <tr>
+                <td width="10%" height="59" style="padding-left:14px;"><img src="bar_02.png" /></td>
+                <td width="90%" id="listData_5"></td>
+            </tr>
+            <tr>
+                <td width="10%" style="padding-left:14px;"><img src="bar_02.png" /></td>
+                <td width="90%" id="listData_6"></td>
+            </tr>
+        </table>
+        <!--滑动框 -->
+        <img src="slide_bar.png" style="position:absolute;left:416px;top:5px;" id="slideBar" />
+    </div>
+    <!--列表焦点框-->
+    <div id="videoFocus" style="position: absolute; left: 752px; top: 140px; width: 420px; height: 60px; line-height: 58px; background: url(focus_border.png); z-index: 9999;">
+        <img src="icon.png" alt="" style="position: absolute; top:22px; left: 14px;" />
+        <div id="list_focus_text" style="position: absolute; left: 44px; width: 370px; height: 66px; line-height: 66px; font-size: 22px; color: #fff"></div>
+    </div>
+    <!--加载图标-->
+    <img style="position:absolute; left:360px; top:299px; width:121px; height:121px; visibility:hidden; z-index:3" src="loadingIcon.gif" id="loadingIcon" />
+    <!--提示框1-->
+    <div style="position:absolute; left:389px; top:200px; width:470px; height:291px; background-image: url(pop00.png); background-repeat:no-repeat;-webkit-transition-duration:200ms; z-index:9999; visibility:hidden;" id="playTips">
+        <table border="0" cellpadding="0" cellspacing="0" style="color:#FFFFFF; position:absolute; left:15px; top: 14px; height: 255px; width: 432px;">
+            <tr>
+                <td height="57" colspan="2" align="center" id="hdTitle" style="font-size:28px;">温馨提示</td>
+            </tr>
+            <tr>
+                <td colspan="2" id="hdContent" style="color: #fff; font-size: 28px; line-height:45px;" align="center">&nbsp;</td>
+            </tr>
+            <tr>
+                <td height="46" width="216px" style="color:#fff; font-size:24px;background:#118bda" align="center" id="playBtn0">是</td>
+                <td height="46" width="216px" style="color:#fff; font-size:24px;background:#323847" align="center" id="playBtn1">否</td>
+            </tr>
+        </table>
+    </div>
+    <script src="js/common.js"></script>
+    <script src="js/config.js"></script>
+    <script>
+    var listData;
+    var ajaxObj = null;
+    var videoBox = null;
+    var listDataPos = 0;
+    var area = 0; //0:右侧列表区域  1:返回按钮区域  2:视频播放区域
+    var isPlayingFlag = false;
+    var menuId = "MANU0000000000168796";
+
+    var currPage = 1;
+    var totalPage = 1;
+    var pageSize = 7;
+
+    var mediaPlayer = null;
+    var mediaID = 0;
+    var smallPlayUrl; //小视频播放地址
+    var smallAVPos = 0;
+    var listStyle = 0;
+
+    var timePosition = 0;
+    var orderTipsPos = 0;
+    var isPlayingFlag = false;
+    var resumeTipsFlag = false;
+    var orderTipsFlag = false;
+
+    function eventHandler(eventObj) {
+        var code = eventObj.code;
+        if (code == "") {
+            code = eventObj.args.value;
+        }
+        iDebug(">>>posterList3 eventHandler code:" + code);
+        switch (code) {
+            case "KEY_UP":
+                changeListPos(-1);
+                return EVENT.STOP;
+                break;
+
+            case "KEY_DOWN":
+                if (area == 0) {
+                    changeListPos(1);
+                } else if (area == 1) {
+                    changeArea(0);
+                }
+                return EVENT.STOP;
+                break;
+
+            case "KEY_LEFT":
+
+                return EVENT.STOP;
+                break;
+
+            case "KEY_RIGHT":
+
+                return EVENT.STOP;
+                break;
+            case "KEY_SELECT":
+                doSelect();
+                return EVENT.STOP;
+                break;
+
+                /*vod消息处理*/
+            case 5202: //open success
+                iDebug(">>>posterlist3 5202 success");
+                $("smallPlayBg").src = "";
+                mediaPlayer.play();
+                $("smallPlaySuccess").style.visibility = "visible";
+                return EVENT.STOP;
+            case 5203: //open fail
+                $("smallPlayBg").src = "videoImg.png";
+                return EVENT.STOP;
+                break;
+            case 5204: // EIS_VOD_DVB_SERACH_FAILED
+                $("smallPlayBg").src = "videoImg.png";
+                return EVENT.STOP;
+            case 5210: //播放结束，继续播下一个视频
+                iDebug(">>>posterList3 5210");
+                mediaPlayer.stop();
+                mediaPlayer.unbindPlayerInstance(mediaID);
+
+                smallAVPos++;
+                if (smallAVPos > listData.length - 1) {
+                    smallAVPos = 0;
+                }
+                getSmallPlayParams();
+                return EVENT.STOP;
+                break;
+        }
+
+    }
+
+
+    /*初始化右侧列表*/
+    function initVideo() {
+        videoBox = new showList(7, listData.length, listDataPos, 142, window);
+        videoBox.focusDiv = "videoFocus";
+        videoBox.listHigh = 58;
+
+        videoBox.haveData = function(list) {
+            $("listData_" + list.idPos).innerText = getStrChineseLen(listData[list.dataPos].titleFull, 17, "..")
+        }
+
+        videoBox.notData = function(list) {
+            $("listData_" + list.idPos).innerText = "";
+        }
+
+        videoBox.startShow();
+        listDataPos = videoBox.position;
+        var str = listData[listDataPos].titleFull;
+        if (getStrChineseLength(str) > 16) {
+            $('list_focus_text').innerHTML = "<marquee>" + str + "</marquee>";
+        } else {
+            $('list_focus_text').innerText = str;
+        }
+    }
+
+    /*列表焦点移动*/
+    function changeListPos(__num) {
+        if (videoBox.position == 0 && __num < 0) {
+            if (currPage == 1) {
+                changeArea(1);
+            } else {
+                changePage(-1);
+                getFilmList();
+            }
+        } else if (videoBox.focusPos == (pageSize - 1) && __num > 0) {
+            if (currPage < totalPage) {
+                changePage(1);
+                getFilmList();
+            } else {
+                return;
+
+            }
+        } else {
+            videoBox.changeList(__num);
+            listDataPos = videoBox.position;
+            var str = listData[listDataPos].titleFull;
+            if (getStrChineseLength(str) > 16) {
+                $('list_focus_text').innerHTML = "<marquee>" + str + "</marquee>";
+            } else {
+                $('list_focus_text').innerText = str;
+            }
+        }
+    }
+
+    /*列表翻页*/
+    function changePage(__num) {
+        currPage += __num;
+        $('slideBar').style.top = 5 + ((currPage - 1) / totalPage) * 430 + 'px';
+    }
+
+    /*获取视频列表数据*/
+    function getFilmList() { //获取影片列表
+        listDataPos = 0;
+        var totalResults = 0;
+        var hashTableKey = "listData_" + menuId + "_" + currPage;
+        iDebug(">>>posterList3 getFilmList hashTableKey=" + hashTableKey);
+        var temp = hashTableObj.get(hashTableKey);
+        iDebug(">>>posterList3 getFilmList temp=" + temp);
+        if (temp != false) {
+            var tmpList = [];
+            if (temp.selectableItemList && temp.selectableItemList.length > 0) {
+                tmpList = temp.selectableItemList;
+                listStyle = 0;
+            } else if (temp.childFolderList && temp.childFolderList.length > 0) {
+                tmpList = temp.childFolderList;
+                listStyle = 1;
+            }
+            if (temp.totalResults == "0") { //这种情况下数据很特殊，服务器直接返回的就是整个数据列表，而不是某一个页的，所以做单独处理
+                listData = tmpList.slice((currPage - 1) * pageSize, currPage * pageSize);
+                totalResults = tmpList.length;
+            } else {
+                listData = tmpList;
+                totalResults = parseInt(temp.totalResults, 10);
+            }
+            totalPage = Math.ceil(totalResults / pageSize);
+            initVideo(); //初始化右侧视频列表
+            getSmallPlayParams();
+            return;
+        } else {
+            //$("loadingIcon").style.visibility = "visible";
+            if (ajaxObj == null) {
+                ajaxObj = new ajaxClass();
+                ajaxObj.frame = window;
+            } else {
+                ajaxObj.requestAbort();
+            }
+            ajaxObj.successCallback = function(_xmlHttp, _params) {
+                iDebug("posterList getFilmList request success!!");
+                eval("var jsonData=" + _xmlHttp.responseText);
+                if (typeof(jsonData) != "object" || jsonData == null) {
+                    return;
+                }
+                var tmpList = [];
+                if (jsonData.selectableItemList && jsonData.selectableItemList.length > 0) {
+                    tmpList = jsonData.selectableItemList;
+                    listStyle = 0;
+                } else if (jsonData.childFolderList && jsonData.childFolderList.length > 0) {
+                    tmpList = jsonData.childFolderList;
+                    listStyle = 1;
+                }
+                if (tmpList.length == 0) {
+                    return;
+                }
+                iDebug("posterList getFilmList _params[0]=" + _params[0]);
+                hashTableObj.put(_params[0], jsonData);
+                if (jsonData.totalResults == "0") { //这种情况下数据很特殊，服务器直接返回的就是整个数据列表，而不是某一个页的，所以做单独处理
+                    listData = tmpList.slice((currPage - 1) * pageSize, currPage * pageSize);
+                    totalResults = tmpList.length;
+                } else {
+                    listData = tmpList;
+                    totalResults = parseInt(jsonData.totalResults, 10);
+                }
+                totalPage = Math.ceil(totalResults / pageSize);
+                iDebug(">>>totalPage:" + totalPage);
+                initVideo();
+                getSmallPlayParams();
+            };
+            ajaxObj.failureCallback = function(_xmlHttp, _params) {
+                iDebug("posterList getFilmList request failed!!");
+            };
+            ajaxObj.callbackParams = [hashTableKey];
+            if (DEBUG == 0) {
+                ajaxObj.urlParameters = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><GetFolderContents assetId='" + menuId + "' portalId='1' client='" + CAManager.cardSerialNumber + "' account='" + account + "' startAt='" + ((currPage - 1) * pageSize + 1) + "' maxItems='" + pageSize + "' languageCode='Zh-CN' regionCode='1' includeFolderProperties='Y' includeSubFolder='Y' includeSelectableItem='Y' profile='1.0'/>";
+                ajaxObj.url = "http://" + ip + ":" + port + "/GetFolderContents?dataType=json";
+            } else {
+                ajaxObj.url = "data/listProgData_" + (currPage - 1) + ".js";
+            }
+            ajaxObj.requestData("POST");
+            iDebug("posterList getFilmList ajaxObj.urlParameters=" + ajaxObj.urlParameters);
+            iDebug("posterList getFilmList ajaxObj.url=" + ajaxObj.url);
+        }
+    }
+
+    /*切换焦点区域*/
+    function changeArea(__area) {
+        if (area == 0) {
+            $('videoFocus').style.visibility = "hidden";
+        } else if (area == 1) {
+            $('returnBtn').style.visibility = "hidden";
+        }
+
+        area = __area;
+        if (area == 0) {
+            $('videoFocus').style.visibility = "visible";
+        } else if (area == 1) {
+            $('returnBtn').style.visibility = "visible";
+        }
+    }
+
+    function doSelect() {
+        //点击确认键，全屏播放
+        if (orderTipsFlag) {
+            if (orderTipsPos == 0) { //去营业厅订购
+                var fromUrl = "?typeDataPos=" + typeDataPos + "&currPage=" + currPage + "&listFocusPos=" + listFocusPos;
+                setGlobalVar("cultureBackToPosterList", fromUrl);
+                window.location.href = yytUrl;
+            } else {
+                hideOrderTips();
+            }
+        } else if (resumeTipsFlag) {
+            if (resumeTipsPos == 0) { //断点播放
+                getResumeParams();
+            } else { //从头播
+                getPlayParams();
+            }
+            hideResumeTips();
+        } else if (area == 0) {
+            checkSavedProgram();
+        } else if (area == 1) { //返回
+            doBack();
+        }
+    }
+
+    /*************************播放小视频视频start*******************/
+    function createMediaPlayer() {
+        mediaPlayer = new MediaPlayer();
+        var rect = new Rectangle(81, 143, 650, 438); //left, top, width, height
+        mediaID = mediaPlayer.getPlayerInstanceID();
+        var flag = mediaPlayer.bindPlayerInstance(mediaID);
+        createPlayerSuccess = flag == 0 ? true : false;
+        if (createPlayerSuccess) {
+            //设置视频播放的位置
+            var flag1 = mediaPlayer.setVideoDisplayArea();
+            var flag2 = mediaPlayer.setVideoDisplayMode(0);
+            var flag3 = mediaPlayer.refresh();
+        }
+    }
+
+    /*播放小视频*/
+    function playSmallAV() {
+        iPanel.debug("specialReport playSmallAV smallPlayUrl=" + smallPlayUrl);
+        if (smallPlayUrl != "") {
+            //GlobalVarManager.setItemStr("playType", "VOD");
+            mediaPlayer.setMediaSource(smallPlayUrl);
+        }
+    }
+
+    /*获取小视频播放参数*/
+    function getSmallPlayParams() {
+        $("loadingIcon").style.visibility = "visible";
+        if (ajaxObj == null) {
+            ajaxObj = new ajaxClass();
+            ajaxObj.frame = window;
+        } else {
+            ajaxObj.requestAbort();
+        }
+        ajaxObj.successCallback = function(_xmlHttp, _params) {
+            iDebug("posterList getSmallPlayParams request success!!");
+            iDebug("posterList getSmallPlayParams _xmlHttp.responseText=" + _xmlHttp.responseText);
+            $("loadingIcon").style.visibility = "hidden";
+            eval("var jsonData=" + _xmlHttp.responseText);
+            if (typeof(jsonData) != "object" || jsonData == null) {
+                iDebug(">>>posterList3 获取播放数据失败");
+                return;
+            }
+            var key = "NavServerResponse";
+            if (key in jsonData) {
+                var message = jsonData.NavServerResponse[0].message;
+                var code = jsonData.NavServerResponse.code;
+                iDebug(">>> posterList3 getSmallPlayParams message:" + message + " code:" + code);
+            } else {
+                var rtsp = jsonData.StartResponse[0].rtsp.split(";");
+                var serverId = rtsp[2].split(":");
+                smallPlayUrl = rtsp[0] + ";" + rtsp[1] + ";" + serverId[0] + ":8080" + ";areacode=" + VOD.areaCode + ";client=" + CAManager.cardSerialNumber;
+                iPanel.debug("index smallPlayUrl==" + smallPlayUrl);
+                //播放小视频
+                playSmallAv();
+            }
+        };
+        ajaxObj.failureCallback = function(_xmlHttp, _params) {
+            iDebug("posterList getSmallPlayParams request failed");
+            $("loadingIcon").style.visibility = "hidden";
+            iDebug(">>>posterList3 ajaxObj.failureCallback");
+        };
+        ajaxObj.urlParameters = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><SelectionStart titleAssetId='" + listData[smallAVPos].assetId + "' folderAssetId='" + listData[smallAVPos].assetId + "' portalId='1'  client='" + CAManager.cardSerialNumber + "' account='" + account + "'/>";
+        ajaxObj.url = "http://" + ip + ":" + port + "/SelectionStart?dataType=json";
+        ajaxObj.requestData("POST");
+        iDebug("posterList getSmallPlayParams ajaxObj.urlParameters=" + ajaxObj.urlParameters);
+        iDebug("posterList getSamllPlayParams ajaxObj.url=" + ajaxObj.url);
+    }
+    /************************播放小视频end************************/
+
+    /**************************全屏播放start***********************/
+    function checkSavedProgram() {
+        isPlayingFlag = true;
+
+        if (ajaxObj == null) {
+            ajaxObj = new ajaxClass();
+            ajaxObj.frame = window;
+        } else {
+            ajaxObj.requestAbort();
+        }
+
+        ajaxObj.successCallback = function(_xmlHttp, _params) {
+            iDebug(">>>posterList1 checkSavedProgram request failed");
+            eval("var jsonData=" + _xmlHttp);
+            if (typeof jsonData != 'object' || jsonData == null) { //获取书签失败,从头开始播放
+                getPlayParams();
+                return;
+            }
+            iDebug(">>>posterList1 checkSavedProgram bookMarkFlag:" + jsonData.bookMarkFlag + "bookMakCode:" + jsonData.code);
+            if (jsonData.bookMarkFlag == "true") { //正常返回
+                timePosition = jsonData.timePosition;
+                showResumeTips();
+            } else {
+                getPlayParams();
+            }
+        }
+
+        ajaxObj.failureCallback = function(_xmlHttp, _params) {
+            $("loadingIcon").style.visibility = "hidden";
+            iDebug(">>>posterList1 checkSavedProgram request failed");
+            isPlayingFlag = false;
+            getPlayParams();
+        }
+
+        //设置请求参数
+        ajaxObj.urlParameters = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><CheckSavedProgram assetId='" + listData[listDataPos].assetId + "' portalId='1' client='" + CAManager.cardSerialNumber + "' account='" + account + "' folderAssetId='" + listData[listDataPos].assetId + "' providerId='" + listData[fi].providerId + "' profile='1.0' languageCode='zh-CN'/>";
+        //设置请求路径
+        ajaxObj.url = "http://" + ip + ":" + port + "/CheckSavedProgram?dataType=json";
+        ajaxObj.requestData("POST");
+        iDebug("posterList checkSavedProgram ajaxObj.urlParameters=" + ajaxObj.urlParameters);
+        iDebug("posterList checkSavedProgram ajaxObj.url=" + ajaxObj.url);
+    }
+
+
+    /*断点播放提示*/
+    function showResumeTips() {
+        resumeTipsFlag = true;
+        resumeTipPos = 0;
+        $("playBtn0").style.backgroundColor = "#118bda";
+        $("playBtn1").style.backgroundColor = "#323847";
+        $("hdContent").innerText = "是否从上次断点开始播放？";
+        $("playTips").style.visibility = "visible";
+    }
+
+    /*获取播放参数，接口：SelectionStart*/
+    function getPlayParams() {
+        if (ajaxObj == null) {
+            ajaxObj = new ajaxClass();
+            ajaxObj.frame = window;
+        } else {
+            ajaxObj.requestAbort();
+        }
+        ajaxObj.successCallback = function(_xmlHttp, _params) {
+            iDebug("posterList3 getPlayParams request success!!");
+            eval("var jsonData=" + _xmlHttp.responseText);
+            if (typeof(jsonData) != "object" || jsonData == null) {
+                iDebug(">>>posterList3 getPlayParams 获取播放路径失败");
+                return;
+            }
+            if (jsonData.code) {
+                var code = jsonData.code;
+                if (code == "13000001" || code == "12011073") {
+                    showOrderTips();
+                } else {
+                    showTips("发生错误！错误码：" + code + "，请咨询客服96311。");
+                }
+                return;
+            }
+
+            var rtsp = jsonData.rtsp.split(";");
+            var serverId = rtsp[2].split(":");
+            var playUrl = rtsp[0] + ";" + rtsp[1] + ";" + serverId[0] + ":8080" + ";areacode=" + area_code + ";client=" + CAManager.cardSerialNumber;
+            GlobalVarManager.setItemStr("boundPlayUrl", playUrl);
+            iDebug("posterList getPlayParams playUrl=" + playUrl);
+
+            var href = encodeURIComponent(window.location.href.split("?")[0] + "?menuType=" + menuType);
+            var fromUrl = "?typeDataPos=" + typeDataPos + "&currPage=" + currPage + "&listFocusPos=" + filmDataPos;
+            setGlobalVar("cultureBackToPosterList", fromUrl);
+            var playCurrName = listData[filmDataPos].titleFull;
+            window.location.href = playIp + "boundPlay.htm?purchaseToken=" + jsonData.purchaseToken + "&previewId=" + jsonData.previewAssetId + "&startTime=" + jsonData.startTime + "&playCurrName=" + playCurrName + "&chapter=" + (filmDataPos + (currPage - 1) * pageSize + 1) + "&selectItemCount=" + totalResults + "&childAssetId=" + listData[filmDataPos].assetId + "&resumePoint=0&rentDateTime=" + listData[filmDataPos].RentalInfo[0].rentDateTime + "&providerId=" + listData[filmDataPos].providerId + "&displayRunTime=" + listData[filmDataPos].displayRunTime + "&folderAssetId=" + listData[filmDataPos].folderAssetId + "&from=" + href;
+        };
+        ajaxObj.failureCallback = function(_xmlHttp, _params) {
+            iDebug("posterList getPlayParams request failed");
+            $("loadingIcon").style.visibility = "hidden";
+            isPlayingFlag = false;
+            showTips("获取播放数据失败！");
+        };
+        ajaxObj.urlParameters = "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><SelectionStart titleAssetId='" + listData[filmDataPos].assetId + "' folderAssetId='" + listData[filmDataPos].assetId + "' portalId='1'  client='" + CAManager.cardSerialNumber + "' account='" + account + "'/>";
+        ajaxObj.url = "http://" + ip + ":" + port + "/SelectionStart?dataType=json";
+        ajaxObj.requestData("POST");
+        iDebug("posterList getPlayParams ajaxObj.urlParameters=" + ajaxObj.urlParameters);
+        iDebug("posterList getPlayParams ajaxObj.url=" + ajaxObj.url);
+    }
+    /*隐藏断点播放提示框*/
+    function hideResumeTips() {
+        $("playTips").style.visibility = "hidden";
+        resumeTipsFlag = false;
+    }
+
+    /*断点提示框焦点变换*/
+    function changeResumeTipsPos() {
+        resumeTipsPos = resumeTipsPos == 0 ? 1 : 0;
+        $("playBtn0").style.backgroundColor = ["#118bda", "#323847"][resumeTipsPos];
+        $("playBtn1").style.backgroundColor = ["#323847", "#118bda"][resumeTipsPos];
+    }
+
+    /*订购提示*/
+    function showOrderTips() {
+        orderTipsPos = 0;
+        $("playBtn0").style.background = "#118bda";
+        $("playBtn1").style.background = "#323847";
+        $("hdContent").innerText = "客户您目前没有订购该栏目，请点击进入TV网厅，自助订购。";
+        $("playTips").style.visibility = "visible";
+        orderTipsFlag = true;
+    }
+
+    /*隐藏订购提示*/
+    function hideOrderTips() {
+        $("playTips").style.visibility = "hidden";
+        orderTipsFlag = false;
+    }
+    /**************************全屏播放end*************************/
+
+    /*返回*/
+    function doBack() {
+        var url = getGlobalVar("bannerURL");
+        iDebug("posterList goBack url=" + url);
+        window.location.href = url;
+    }
+
+    /*获取menuType*/
+    function getParams() {
+        var url = window.location.href;
+        menuType = getUrlParams("menuType", url);
+        //显示标题图片
+        getData();
+        $("title_Icon").src = titleIcon;
+        menuId = getUrlParams("assetId");
+    }
+    window.onload = function() {
+        init();
+    }
+
+    function init() {
+        getParams();
+        getFilmList();
+        createMediaPlayer();
+    }
+    </script>
+</body>
+
+</html>

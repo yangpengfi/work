@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title> 同步知识点微课 </title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <link rel="stylesheet" href="css/ntv.css">
+    <link rel="stylesheet" href="css/base.css">
+    <style>
+    </style>
+</head>
+<body>
+<div class="container pos-abs">
+    <span id="title" class="title">小升初知识点精讲</span>
+    <ul id="asideList">
+        <li>
+            <img src="img/sideList.png" alt="11" data-type="1">
+            <p>语文</p>
+        </li>
+        <li>
+            <img src="img/sideList.png" alt="21" data-type="1">
+            <p>英语</p>
+        </li>
+        <li>
+            <img src="img/sideList.png" alt="31" data-type="1">
+            <p></p>
+        </li>
+        <li>
+            <img src="img/sideList.png" alt="41" data-type="1">
+            <p></p>
+        </li>
+        <li>
+            <img src="img/sideList.png" alt="51" data-type="1">
+            <p></p>
+        </li>
+        <li>
+            <img src="img/sideList.png" alt="61" data-type="1">
+            <p></p>
+        </li>
+        <li>
+            <img src="img/sideList.png" alt="71" data-type="1">
+            <p></p>
+        </li>
+        <li>
+            <img src="img/sideList.png" alt="81" data-type="1">
+            <p></p>
+        </li>
+        <li>
+            <img src="img/sideList.png" alt="91" data-type="1">
+            <p></p>
+        </li>
+        <li>
+            <img src="img/sideList.png" alt="101" data-type="1">
+            <p></p>
+        </li>
+    </ul>
+    <div id="centerList">
+        <ul>
+            <li data-resourceid="4629"><img src="img/smallAct.png" alt="12" data-type="2"><p>01 音序查字法</p><img src="img/index/sub_chinesesmall.png"></li>
+            <li data-resourceid="4640"><img src="img/smallAct.png" alt="13" data-type="2"><p>02 部首查字法</p><img src="img/index/sub_chinesesmall.png"></li>
+            <li data-resourceid="4651"><img src="img/smallAct.png" alt="14" data-type="2"><p>03 “的地得”的正确用法</p><img src="img/index/sub_chinesesmall.png"></li>
+            <li data-resourceid="4662"><img src="img/smallAct.png" alt="15" data-type="2"><p>04 记叙的顺序——顺叙、倒叙、插叙</p><img src="img/index/sub_chinesesmall.png"></li>
+            <li data-resourceid="4673"><img src="img/smallAct.png" alt="16" data-type="2"><p>05 理解词语的方法</p><img src="img/index/sub_chinesesmall.png"></li>
+            <li data-resourceid="4674"><img src="img/smallAct.png" alt="17" data-type="2"><p>06 辨析词义的方法</p><img src="img/index/sub_chinesesmall.png"></li>
+            <li data-resourceid="4675"><img src="img/smallAct.png" alt="18" data-type="2"><p>07 如何对人物进行形象描写</p><img src="img/index/sub_chinesesmall.png"></li>
+            <li data-resourceid="4676"><img src="img/smallAct.png" alt="19" data-type="2"><p>08 词语的感情色彩分类之褒义词、贬义词和中性词</p><img src="img/index/sub_chinesesmall.png"></li>
+        </ul>
+    </div>
+    <div id="pageBar">
+        <span style="position:absolute;left:10px;top:-5px;" id="currPage">1</span>/
+        <span style="font-size:18px;position:absolute;left:50px;top:15px;" id="totalPage">1</span>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/config.js"></script>
+<script type="text/javascript">
+    var FocusType=1;
+    var focusEle=ntv.navigation.getElmByCoord(11);
+    (function(){
+            var parm=JSON.parse(sessionStorage.getItem("themePrm"));
+            var params={
+                token:token,
+                periodId:parm.periodId,
+                gradeId:parm.gradeId,
+                cloumnId:parm.cloumnId
+            };
+            getData(params,'/app/microcourse/a/getThemeList.do',setThemeLeftList)
+        banxue(focusEle).parent().attr("style","color:#00b2ed").siblings().removeAttr("style");
+        banxue("#title").html(sessionStorage.getItem("title"));
+    })();
+    var set_listen = function(keycode){
+        var coord=parseInt(ntv.navigation.coord);
+        var currPage=parseInt(banxue("#currPage").text());
+        var totalPage=parseInt(banxue("#totalPage").text());
+        var code=keycode.code;
+        switch(code)
+        {
+            case "KEY_UP":
+                if(FocusType=="2"){
+                    coord-=4;
+                    if(coord<12&&currPage>1){
+                        var autoParams=JSON.parse(sessionStorage.getItem("autoParams"));
+                        autoParams.pageIndex-=1;
+                        getData(autoParams,'/app/microcourse/a/getResourceList.do',setOthCenterList);
+                        sessionStorage.setItem("autoParams",JSON.stringify(autoParams));
+                        banxue("#currPage").text(currPage-1);
+                        ntv.navigation.move_focus(coord+8);
+                    }else if(coord==11){
+                        return;
+                    }else{
+                        ntv.navigation.move_focus(coord);
+                    }
+                }
+                break;
+            case "KEY_DOWN":
+                if(FocusType=="2"){
+                    coord+=4;
+                    if(coord>19&&currPage<totalPage){
+                        var autoParams=JSON.parse(sessionStorage.getItem("autoParams"));
+                        autoParams.pageIndex+=1;
+                        getData(autoParams,'/app/microcourse/a/getResourceList.do',setOthCenterList);
+                        sessionStorage.setItem("autoParams",JSON.stringify(autoParams));
+                        banxue("#currPage").text(currPage+1);
+                        if(currPage+1==totalPage){
+                            ntv.navigation.move_focus(12);
+                        }else{
+                            ntv.navigation.move_focus(coord-8);
+                        }
+                    }else{
+                        ntv.navigation.move_focus(coord);
+                    }
+                }
+                break;
+            case "KEY_RIGHT":
+                if(FocusType=="1"){
+                    console.log(ntv.navigation.coord)
+                    ntv.navigation.move_focus(12);
+                }
+                break;
+            case "KEY_OK":
+                if(FocusType=='2'){
+                    centerLiClick();
+                }
+                break;
+        }
+    };
+    //元素获取焦点后操作
+    function getFocusfunction(coord){
+        focusEle=ntv.navigation.getElmByCoord(coord);
+        FocusType=focusEle.getAttribute("data-type");
+        sessionStorage.setItem('resourceid',banxue(focusEle).parent().attr('data-resourceid'));
+        if(FocusType=='1'){
+            var params={
+                token:token,
+                pageSize:8,
+                pageIndex:1,
+                gradeId:sessionStorage.getItem("gradeId"),
+                subjectId:focusEle.getAttribute("data-subjectId"),
+                themeId:focusEle.getAttribute("data-themeId")
+            };
+            getData(params,'/app/microcourse/a/getResourceList.do',setOthCenterList);
+            sessionStorage.setItem("subjectId",focusEle.getAttribute("data-subjectId"));
+            sessionStorage.setItem("autoParams",JSON.stringify(params));
+            sessionStorage.setItem("coord",coord);
+            banxue(focusEle).parent().attr("style","color:#00b2ed").siblings().removeAttr("style");
+            banxue("#currPage").text("1")
+        }
+    }
+    (function(){
+        ntv.key.keypress_handle = set_listen;
+        ntv.navigation.move_done_callback = getFocusfunction;
+    })();
+</script>
+</body>
+</html>

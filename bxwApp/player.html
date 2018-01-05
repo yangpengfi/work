@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> 登陆页 </title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <link rel="stylesheet" href="css/ntv.css">
+    <link rel="stylesheet" href="css/base.css">
+    <style>
+        #playBox{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="background: url('img/index/background.jpg') no-repeat;">
+    <video src="test.mp4" id="playBox" autoplay="autoplay" controls="controls"></video>
+</div>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript">
+
+    (function(){
+        var videoUrl='http://192.168.8.252:86'+localStorage.getItem('videoUrl');
+        $('#playBox').attr('src',videoUrl);
+    })();
+</script>
+</body>
+</html>

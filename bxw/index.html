@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title> 微课 </title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <link rel="stylesheet" href="css/ntv.css">
+    <link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+<div class="container pos-abs">
+    <img src="img/index/TVlogo.png" id="rightLogo"/>
+    <ul id="nav">
+        <li><img src="img/index/microclassroomed.png" /></li>
+    </ul>
+    <div class="cli"></div>
+    <div id="idxCenter">
+        <img src="img/index/Math.png" class="idx1" alt="11,4" name="otherList.html" data-theme="0"/>
+        <img src="img/index/Synchronous.png" class="idx2" alt="12,15,22,5" name="wkList.html" data-theme="1"/>
+        <img src="img/index/among.png" class="idx3" alt="13,6"  data-theme="2"/>
+        <img src="img/index/chinaesetest.png" class="idx4" alt="14,21" data-theme="3"/>
+        <img src="img/index/microClass.png" class="idx5" alt="16,23" data-theme="4"/>
+        <img src="img/index/shadow.png" style="position: absolute;top:427px;left: -8px;"/>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/config.js"></script>
+<script>
+    var themeType='';
+    function conso_coordfunction(coord){
+        var focEle=ntv.navigation.getElmByCoord(coord);
+            themeType=focEle.getAttribute("data-theme");
+        var themePrm=null;
+        if(themeType=='2'){
+            themePrm={
+                periodId:3,
+                gradeId:6,
+                cloumnId:2
+            };
+            sessionStorage.setItem('gradeId',6);
+            sessionStorage.setItem('title',"小升初知识点精讲");
+        }else if(themeType=='3'){
+            themePrm={
+                periodId:2,
+                gradeId:9,
+                cloumnId:3
+            };
+            sessionStorage.setItem('gradeId',9);
+            sessionStorage.setItem('title',"中考知识点精讲");
+        }
+        sessionStorage.setItem('themePrm',JSON.stringify(themePrm));
+    }
+    var set_listen_handle = function(keycode){
+        var code = keycode.code;
+        switch(code){
+            case "KEY_OK":
+                if(themeType=='2'||themeType=='3') {
+                    location.href="list.html";
+                }
+                break;
+        }
+    };
+    (function(){
+        ntv.key.keypress_handle = set_listen_handle;
+        ntv.navigation.move_done_callback = conso_coordfunction;
+    })();
+</script>
+</body>
+</html>

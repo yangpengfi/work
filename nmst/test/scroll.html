@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style type="text/css">
+			body {
+				background: white;
+			}
+			
+			#liming {
+				height: 300px;
+				width: 200px;
+				border: 1px solid yellow;
+				float: left;
+			}
+			
+			#liming a {
+				display: inline-block;
+				height: 40px;
+				width: 120px;
+				border: 1px sandybrown solid;
+				text-align: center;
+				background: red;
+			}
+			
+			#main {
+				float: right;
+			}
+			
+			.content {
+				width: 500px;
+				height: 400px;
+				overflow: hidden;
+				border: 1px solid red;
+			}
+			
+			.scroll {
+				position: absolute;
+				top: 10px;
+				left: 1150px;
+				left: 495px;
+				width: 13px;
+				height: 400px;
+				display: block;
+				z-index: -1;
+			}
+			
+			.scroll .scroll-bar {
+				position: absolute;
+				top: 5px;
+				left: 0px;
+				height: 74px;
+				width: 13px;
+				display: none;
+			}
+			
+			.scroll .scroll-bar img {
+				width: 13px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--<div id="liming">
+			<a href="javascript:alert(1);">1</a>
+			<a href="javascript:alert(2);">2</a>
+			<a href="javascript:alert(3);">3</a>
+			<a href="javascript:alert(4);">4</a>
+		</div>-->
+		<div class="content liming" id="scroll-content">
+			<p>0000000000000000000000000001</p>
+			<p>0000000000000000000000000002</p>
+			<p>0000000000000000000000000003</p>
+			<p>0000000000000000000000000004</p>
+			<p>0000000000000000000000000005</p>
+			<p>0000000000000000000000000006</p>
+			<p>0000000000000000000000000007</p>
+			<p>0000000000000000000000000008</p>
+			<p>0000000000000000000000000009</p>
+			<p>0000000000000000000000000010</p>
+			<p>0000000000000000000000000011</p>
+			<p>0000000000000000000000000012</p>
+			<p>0000000000000000000000000013</p>
+			<p>0000000000000000000000000014</p>
+			<p>0000000000000000000000000015</p>
+			<p>0000000000000000000000000016</p>
+			<p>0000000000000000000000000017</p>
+			<p>0000000000000000000000000018</p>
+			<p>0000000000000000000000000019</p>
+			<p>0000000000000000000000000020</p>
+			<p>0000000000000000000000000021</p>
+			<p>0000000000000000000000000022</p>
+			<p>0000000000000000000000000023</p>
+			<p>0000000000000000000000000024</p>
+			<p>0000000000000000000000000025</p>
+			<p>0000000000000000000000000026</p>
+			<p>0000000000000000000000000027</p>
+			<p>0000000000000000000000000028</p>
+			<p>0000000000000000000000000029</p>
+			<p>0000000000000000000000000030</p>
+			<p>0000000000000000000000000031</p>
+			<p>0000000000000000000000000032</p>
+			<p>0000000000000000000000000033</p>
+			<p>0000000000000000000000000034</p>
+			<p>0000000000000000000000000035</p>
+			<p>0000000000000000000000000036</p>
+			<p>0000000000000000000000000037</p>
+			<p>0000000000000000000000000038</p>
+			<p>0000000000000000000000000039</p>
+			<p>0000000000000000000000000040</p>
+			<p>0000000000000000000000000041</p>
+			<p>0000000000000000000000000042</p>
+			<p>0000000000000000000000000043</p>
+			<p>0000000000000000000000000044</p>
+			<p>0000000000000000000000000045</p>
+			<p>0000000000000000000000000046</p>
+			<p>0000000000000000000000000047</p>
+			<p>0000000000000000000000000048</p>
+			<p>0000000000000000000000000049</p>
+			<p>0000000000000000000000000050</p>
+			<p>0000000000000000000000000051</p>
+			<p>0000000000000000000000000052</p>
+			<p>0000000000000000000000000053</p>
+			<p>0000000000000000000000000054</p>
+			<p>0000000000000000000000000055</p>
+			<p>0000000000000000000000000056</p>
+			<p>0000000000000000000000000057</p>
+			<p>0000000000000000000000000058</p>
+			<p>0000000000000000000000000059</p>
+			<p>0000000000000000000000000060</p>
+			<p>0000000000000000000000000061</p>
+			<p>0000000000000000000000000062</p>
+			<p>0000000000000000000000000063</p>
+			<p>0000000000000000000000000064</p>
+			<p>0000000000000000000000000065</p>
+			<p>0000000000000000000000000066</p>
+			<p>0000000000000000000000000067</p>
+			<p>0000000000000000000000000068</p>
+			<p>0000000000000000000000000069</p>
+			<p>0000000000000000000000000070</p>
+			<p>0000000000000000000000000071</p>
+			<p>0000000000000000000000000072</p>
+			<p>0000000000000000000000000073</p>
+			<p>0000000000000000000000000074</p>
+			<p>0000000000000000000000000075</p>
+			<p>0000000000000000000000000076</p>
+			<p>0000000000000000000000000077</p>
+			<p>0000000000000000000000000078</p>
+			<p>0000000000000000000000000079</p>
+			<p>0000000000000000000000000080</p>
+			<p>0000000000000000000000000081</p>
+			<p>0000000000000000000000000082</p>
+			<p>0000000000000000000000000083</p>
+			<p>0000000000000000000000000084</p>
+			<p>0000000000000000000000000085</p>
+			<p>0000000000000000000000000086</p>
+			<p>0000000000000000000000000087</p>
+			<p>0000000000000000000000000088</p>
+			<p>0000000000000000000000000089</p>
+			<p>0000000000000000000000000090</p>
+			<p>0000000000000000000000000091</p>
+			<p>0000000000000000000000000092</p>
+			<p>0000000000000000000000000093</p>
+			<p>0000000000000000000000000094</p>
+			<p>0000000000000000000000000095</p>
+			<p>0000000000000000000000000096</p>
+			<p>0000000000000000000000000097</p>
+			<p>0000000000000000000000000098</p>
+			<p>0000000000000000000000000099</p>
+			<p>0000000000000000000000000100</p>
+		</div>
+		<div id="main">
+			<a href="#">11111</a>
+			<a href="#">11111</a>
+			<a href="#">11111</a>
+			<a href="#">11111</a>
+			<a href="#">11111</a>
+		</div>
+		<button id="btn">dddddddd</button>
+		<div class="scroll" id="scroll-line">
+			<div class="scroll-bar" id="scroll-bar">
+				<img id="scroll-bar-focus" src="WX20170816-215448@2x.png" alt="12" name="">
+			</div>
+		</div>
+		<img src="../hd/img/130523427132628.png" />
+		<script src="./ntv.js/js/1common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./ntv.js/js/1common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./ntv.js/js/2core.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./ntv.js/js/3key.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./ntv.js/js/4navigation.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./ntv.js/js/5page.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./ntv.js/js/6ipanel.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./ntv.js/js/6ngb_h.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./ntv.js/js/6pc.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./ntv.js/js/6shdv.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./ntv.js/js/7msg.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./ntv.js/js/8stb.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./ntv.js/js/9utils.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./ntv.js/js/effect/effect-scrolldiv.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./ntv.js/js/effect/effect-slidemenu.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			setTimeout(function() {
+				ntv.effect.scroll.init("#scroll-line", "#scroll-bar", "#scroll-bar-focus", "#scroll-content");
+			}, 500);
+			ntv.key.keypress_handle = function(code) {
+				var OK = ntv.key.keycode.KEY_OK;
+				var UP = ntv.key.keycode.KEY_UP;
+				var DOWN = ntv.key.keycode.KEY_DOWN;
+				var LEFT = ntv.key.keycode.KEY_LEFT;
+				var RIGHT = ntv.key.keycode.KEY_RIGHT;
+				var REFRESH = ntv.key.keycode.KEY_REFRESH;
+				var BACK = ntv.key.keycode.KEY_BACK;
+				var RED = ntv.key.keycode.KEY_RED;
+				switch(code) {
+					case OK:
+					console.log('ok');
+						break;
+					case UP:
+					console.log('up');
+						break;
+					case DOWN:
+					console.log('down');
+						break;
+					case LEFT:
+					console.log('left');
+						break;
+					case RIGHT:
+					console.log('right');
+						break;
+					case REFRESH:
+					console.log('refresh');
+						break;
+					case BACK:
+					console.log('back');
+						break;
+					case RED:
+					console.log('~键');
+					ntv.effect.scroll.content.scroll_out(1)
+						break;
+					default:
+						break;
+				}
+			}
+			ntv.key.systemevent_handle = function(event_code) {
+				console.log(event_code)
+				console.log("ntv.key.systemevent_handle(), event_code: " + event_code);
+			};
+		</script>
+	</body>
+
+</html>

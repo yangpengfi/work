@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title> 微课 </title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <link rel="stylesheet" href="css/ntv.css">
+    <link rel="stylesheet" href="css/base.css">
+    <style>
+        /*.search{
+            width: 134px;
+            height: 40px;
+            position: absolute;
+            left: 106px;
+            top:30px;
+            border: 1px solid #fff;
+            border-radius: 20px;
+        }
+        .search img{
+             position: absolute;
+             top:8px;
+             left: 25px;
+         }
+        #search{
+            position: absolute;
+            top:6px;
+            left:65px;
+            width: 60px;
+            font-size: 20px;
+            outline: none;
+            border: none;
+            background: transparent;
+            color:rgba(255,255,255,.6)
+        }*/
+        .logo{
+            position:absolute;
+            top:60px;
+            right: 70px;
+        }
+        .nav{
+            position: absolute;
+            top:78px;
+            left: 106px;
+        }
+        .nav li{
+            float: left;
+        }
+        .content{
+            position: absolute;
+            top:147px;
+            left: 106px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="background: url('img/index/background.jpg') no-repeat;">
+    <!--<div class="search">
+        <img src="img/index/search.png" alt="搜索"/>
+        <input type="text" placeholder="搜索" id="search"/>
+    </div>-->
+    <img src="img/index/TVlogo.png" alt="logo" class="logo"/>
+    <ul class="nav">
+        <li class="active"><img src="img/index/microclassroomed.png" alt=""/></li>
+    </ul>
+    <div style="clear: both"></div>
+    <div class="content">
+        <a href="#" style="position: absolute;top:0;left: 0;"><img src="img/index/Math.png" alt="奥数全能解法及解析" data-type="0"/></a>
+        <a href="#" style="position: absolute;top:0;left: 360px;"><img src="img/index/Synchronous.png" alt="同步知识点微课" data-type="1"/></a>
+        <a href="#" style="position: absolute;top:0;left: 720px;"><img src="img/index/among.png" alt="小升初知识点精讲" data-type="2"/></a>
+        <a href="#" style="position: absolute;top:220px;left: 0;"><img src="img/index/chinaesetest.png" alt="中考知识点精讲" data-type="3"/></a>
+        <a href="#" style="position: absolute;top:220px;left: 720px;"><img src="img/index/microClass.png" alt="我的微课" data-type="4"/></a>
+        <img src="img/index/shadow.png" alt="阴影" style="position: absolute;top:427px;left: -8px;"/>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="js/myAjax.js"></script>
+<script type="text/javascript">
+    (function(){
+        //ntv.log.debug = true;   // 是否开启调试模式。
+        /*var token="";
+        var parameter={
+            username:18943980005,
+            pwd:"e10adc3949ba59abbe56e057f20f883e",
+            skey:"skey",
+            type:1
+        };
+        $.ajax({
+            url:'http://192.168.8.251/banxue/app/user/login.do',
+            type:'POST',
+            data:parameter,
+            success:function(data){
+                console.log(data)
+                token=data.data.token;
+                console.log(token);
+            }
+        })*/
+        $('.content').on("click","img",function(){
+            var dataType=$(this).attr("data-type");
+            console.log(dataType);
+            switch (dataType){
+                case '0':
+                    var params={
+                        token:token,
+                        gradeId:1,
+                        subjectId:2,
+                        themeId:1,
+                        pageSize:100
+                    };
+                    getReList(params);
+                    localStorage.setItem("title","奥数全能解法及解析");
+                    break;
+                case '1':
+                    var params={
+                        token:token
+                    };
+                    $.ajax({
+                        url:'http://192.168.8.251/banxue/app/microcourse/a/getUserData.do',
+                        type:'POST',
+                        data:params,
+                        success:function(data){
+                            console.log(data);
+                            var paramData={
+                                token:token,
+                                gradeId:data.data.gradeId
+                            };
+                            getLeftList(paramData);
+                            localStorage.setItem("liIdex",0);
+                        }
+                    });
+                    //getReList(params);
+                    setTimeout(function(){
+                        location.href="wkList.html";
+                    },100)
+                    localStorage.setItem("title","同步知识点微课");
+                    break;
+                case '2':
+                    var params={
+                        token:token,
+                        periodId:3,
+                        gradeId:6,
+                        cloumnId:2
+                    };
+                    showList(params);
+                    localStorage.setItem("title","小升初知识点精讲");
+                    break;
+                case '3':
+                    var params={
+                        token:token,
+                        periodId:2,
+                        gradeId:9,
+                        cloumnId:3
+                    };
+                    showList(params);
+                    localStorage.setItem("title","中考知识点精讲");
+                    break;
+                case '4':
+                    localStorage.setItem("title","小升初知识点精讲");
+                    break;
+                default:
+
+            }
+        })
+        function showList(paramData){
+            $.ajax({
+                url:'http://192.168.8.251/banxue/app/microcourse/a/getThemeList.do',
+                type:'POST',
+                data:paramData,
+                success:function(data){
+                    //console.log(data)
+                    var html='';
+                    $.each(data.data,function(key,val){
+                        if(key==0){
+                            html+='<li class="active" data-subjectId="'+val.subjectId+'" data-themeId="'+val.themeId+'" data-gradeId="'+paramData.gradeId+'">'+val.themeName+'</li>';
+                            paramData.themeId=val.themeId;
+                            paramData.pageSize=100;
+                            paramData.subjectId=val.subjectId;
+                        }else{
+                            html+='<li data-subjectId="'+val.subjectId+'" data-themeId="'+val.themeId+'" data-gradeId="'+paramData.gradeId+'">'+val.themeName+'</li>';
+                        }
+
+                    });
+                    getOtherList(paramData);
+                    localStorage.setItem("list",html);
+                }
+            });
+            setTimeout(function(){
+                location.href="list.html";
+            },100)
+        }
+        function getReList(params){
+            $.ajax({
+                url:'http://192.168.8.251/banxue/app/microcourse/a/getResourceList.do',
+                type:'POST',
+                data:params,
+                success:function(data){
+                    //console.log(data)
+                    location.href="wkSubList.html";
+                    var html='';
+                    $.each(data.data,function(key,val){
+                        html+='<li data-resourceId="'+val.resourceId+'">'+
+                                '<p>'+val.knowledgePoint+'</p>'+
+                                '<img src="img/index/'+imgArr[params.subjectId-1]+'" alt="mathLogo"/>'+
+                                '</li>';
+                    })
+                    localStorage.setItem("subList",html)
+                }
+            });
+        }
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <title> 微课 </title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="page-view-size" content="1280*720">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <link rel="stylesheet" href="css/ntv.css">
+    <link rel="stylesheet" href="css/base.css">
+</head>
+<body onload="init()">
+<div class="container pos-abs">
+    <h1 style="margin:25px 40px;color:#fff;">测试播放</h1>
+</div>
+<script>
+
+    var playUrl='rtsp://192.168.8.251/870.mkv';
+    function init(){
+        createMediaPlayer();
+    }
+    /*媒体播放对象*/
+    var mediaPlayer = null;				 // 播放器对象
+    var mediaID = null ;				 // 播放器实例ID
+
+    /*创建播放器对象*/
+    function createMediaPlayer(){
+        mediaPlayer = new MediaPlayer();
+        mediaID = mediaPlayer.getPlayerInstanceID();
+        mediaPlayer.bindPlayerInstance(mediaID);
+        //mediaPlayer.setMediaSource(playUrl,"VOD");
+        media.AV.open(playUrl,"VOD");
+    }
+    /*--System Event
+     *5974:  当前页面已经打开完成，发消息通知页面
+     *13001: 媒体源路径有效
+     *5202:  准备播放媒体成功
+     *13051  铺货节目播放到尾
+     ====================================================== */
+
+    document.onsystemevent = function(event_code){
+
+        switch(event_code)
+        {
+
+            case 5202:
+            case 5226:
+                media.AV.play();
+                break;
+            case 5203:   //ope服务器失败(5203)
+                media.AV.close();
+                break;
+            case 5205:   //play 播放媒体成功
+                break;
+            case 5206:   //play 播放媒体失败
+                media.AV.close();
+                break;
+            case 5210:   //播放完毕
+                break;
+            case 5211:  //close 成功
+                break;
+            case 5212:  //close 失败
+                break;
+            case 4404:  //播放的节目没有数据
+                break;
+            default:
+                break;
+        }
+    };
+</script>
+</body>
+</html>
