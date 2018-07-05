@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>首页</title>
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="lib/bootstrap/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/base.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+</head>
+<body>
+    <nav>
+        <div class="logo pull-left">
+            <img src="images/logo.png" alt="">
+        </div>
+        <div class="nav pull-left">
+            <ul class="list-unstyled">
+                <li><a href="#">首页</a></li>
+                <li><a class="act" href="#">应用监控</a></li>
+                <li><a href="#">空间监控</a></li>
+                <li><a href="#">资源监控</a></li>
+                <li><a href="#">学校监控</a></li>
+            </ul>
+        </div>
+        <div class="rightTop pull-right">福建</div>
+    </nav>
+    <div class="pageUp">
+        <div class="pageLeft pull-left">
+            <!--<h2 class="text-center">区域分布</h2>-->
+            <div class="distribute">
+                <div id="distributeChart"></div>
+                <div class="dataShow">
+                    <p><span>总数</span><span>109547</span></p>
+                    <p><span>注册用户</span><span>15981</span></p>
+                    <p><span>学校用户</span><span>59823</span></p>
+                    <p><span>月活跃用户</span><span>46195</span></p>
+                    <p><span>已开通学校</span><span>46</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="pageRight pull-left">
+            <h2>平台用户</h2>
+            <div id="activeChart"></div>
+            <div id="userChart"></div>
+        </div>
+    </div>
+    <div class="pageDown">
+        <div class="pageLeft pull-left">
+            <div class="page1">
+                <h2>开通空间</h2>
+                <p>
+                    <span>101547</span>
+                    <span>
+                        <span>老师</span><br>
+                        <span>30703</span>
+                    </span>
+                    <span>
+                        <span>学生</span><br>
+                        <span>60735</span>
+                    </span>
+                </p>
+                <div id="spaceChart"></div>
+            </div>
+            <div class="page2">
+                <h2>资源建设<span class="pull-right">3815499</span></h2>
+                <p>
+                    <span>
+                        <span>同步资源</span><br>
+                        <span>2976089</span>
+                    </span>
+                    <span>
+                        <span>知识点资源</span><br>
+                        <span>839410</span>
+                    </span>
+                    <span>
+                        <span>UGC资源</span><br>
+                        <span>3395794</span>
+                    </span>
+                </p>
+                <div id="resChart"></div>
+                <div class="pieTitle">
+                    <span style="margin-left: 100px;">教材覆盖率</span>
+                    <span style="margin-left: 80px;">学科覆盖率</span>
+                </div>
+            </div>
+            <div class="page3">
+                <h2>应用接入<span class="pull-right">10</span></h2>
+                <div id="appChart"></div>
+            </div>
+            <div class="page4">
+                <h2>课程<span class="pull-right">260</span></h2>
+                <div id="courseChart"></div>
+            </div>
+        </div>
+        <div class="pageRight pull-left">
+            <h2 class="text-center">区域使用排行Top10</h2>
+            <div class="topLeft pull-left">
+                <p>1 福州市</p>
+                <p>2 南平市</p>
+                <p>3 三明市</p>
+                <p>4 莆田市</p>
+                <p>5 泉州市</p>
+                <p>6 漳州市</p>
+                <p>7 龙岩市</p>
+                <p>8 厦门市</p>
+                <p>9 宁德市</p>
+                <p>10 平潭综合试验区</p>
+            </div>
+            <div id="orderChart" class="pull-left"></div>
+        </div>
+    </div>
+    <!--页面加载进度中-->
+    <!--<div class="loading"></div>-->
+<script src="http://api.map.baidu.com/getscript?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM&services=&t=20170803155555"></script>
+<script src="lib/jquery-1.11.3.min.js"></script>
+<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="lib/echarts/echarts.js"></script>
+<script src="lib/echarts/extension/bmap.js"></script>
+<script>
+    //区域分布
+    var jiangxi = "./data/data-1518338017111-rJK1gtpUM.json";
+    var yingtan = "./data/data-1518338860057-By447tpLf.json";
+    var yichun = "./data/data-1518338852969-Hy677KTIf.json";
+    var xinyu = "./data/data-1518338838010-SyAzQYTIf.json";
+    var shangrao = "./data/data-1518338829670-H1UfQYa8G.json";
+    var pingxiang = "./data/data-1518338823093-HkyMQtpUf.json";
+    var nanchang = "./data/data-1518338805373-S1Temta8G.json";
+    var jiujiang = "./data/data-1518338799987-S1deQFTLz.json";
+    var jingdezhen = "./data/data-1518338783915-HJOJXtaLf.json";
+    var jian = "./data/data-1518338772507-BJnAMKTIz.json";
+    var ganzhou = "./data/data-1518338763250-S17RfKpLM.json";
+    var fuzhou = "./data/data-1518338684239-S1EFGtp8f.json";
+
+    echarts.extendsMap = function(id, opt){
+        // 实例
+        var chart = this.init(document.getElementById(id));
+
+        var curGeoJson = {};
+        var cityMap = {
+            "南昌市": nanchang,
+            "景德镇市": jingdezhen,
+            "萍乡市": pingxiang,
+            "九江市": jiujiang,
+            "新余市": xinyu,
+            "鹰潭市": yingtan,
+            "赣州市": ganzhou,
+            "吉安市": jian,
+            "宜春市": yichun,
+            "抚州市": fuzhou,
+            "上饶市": shangrao
+        };
+        var geoCoordMap = {
+            '南昌': [115.89, 28.48],
+            '景德镇': [117.28, 29.09],
+            '萍乡': [113.93, 27.41],
+            '九江': [115.97,29.51],
+            '新余': [114.81, 27.72],
+            '鹰潭': [117.12, 28.10],
+            '赣州': [115.04, 25.67],
+            '吉安': [115.05, 26.88],
+            '宜春': [114.41, 28.03],
+            '抚州': [116.45, 27.79],
+            '上饶': [117.92, 28.22]
+        };
+        var levelColorMap = {
+            '1': 'rgba(241, 109, 115, .8)',
+            '2': 'rgba(255, 235, 59, .7)',
+            '3': 'rgba(147, 235, 248, 1)'
+        };
+
+        var defaultOpt = {
+            mapName: 'china',     // 地图展示
+            goDown: false,        // 是否下钻
+            bgColor: '#404a59',   // 画布背景色
+            activeArea: [],       // 区域高亮,同echarts配置项
+            data: [],
+            // 下钻回调(点击的地图名、实例对象option、实例对象)
+            callback: function(name, option, instance){}
+        };
+        if(opt) opt = this.util.extend(defaultOpt, opt);
+
+        // 层级索引
+        var name = [opt.mapName];
+        var idx = 0;
+        var pos = {
+            leftPlus: 115,
+            leftCur: 150,
+            left: 198,
+            top: 50
+        };
+
+        var line = [[0, 0], [8, 11], [0, 22]];
+        // style
+        var style = {
+            font: '18px "Microsoft YaHei", sans-serif',
+            textColor: '#eee',
+            lineColor: 'rgba(147, 235, 248, .8)'
+        };
+
+        var handleEvents = {
+            /**
+             * i 实例对象
+             * o option
+             * n 地图名
+             **/
+            resetOption: function(i, o, n){
+                var breadcrumb = this.createBreadcrumb(n);
+
+                var j = name.indexOf(n);
+                var l = o.graphic.length;
+                if(j < 0){
+                    o.graphic.push(breadcrumb);
+                    o.graphic[0].children[0].shape.x2 = 145;
+                    o.graphic[0].children[1].shape.x2 = 145;
+                    if(o.graphic.length > 2){
+                        for(var x = 0; x < opt.data.length; x++){
+                            if(n === opt.data[x].name + '市'){
+                                o.series[0].data = handleEvents.initSeriesData([opt.data[x]]);
+                                break;
+                            }else o.series[0].data = [];
+                        }
+                    };
+                    name.push(n);
+                    idx++;
+                }else{
+                    o.graphic.splice(j + 2, l);
+                    if(o.graphic.length <= 2){
+                        o.graphic[0].children[0].shape.x2 = 60;
+                        o.graphic[0].children[1].shape.x2 = 60;
+                        o.series[0].data = handleEvents.initSeriesData(opt.data);
+                    };
+                    name.splice(j + 1, l);
+                    idx = j;
+                    pos.leftCur -= pos.leftPlus * (l - j - 1);
+                };
+
+                o.geo.map = n;
+                o.geo.zoom = 0.4;
+                i.clear();
+                i.setOption(o);
+                this.zoomAnimation();
+                opt.callback(n, o, i);
+            },
+
+            /**
+             * name 地图名
+             **/
+            createBreadcrumb: function(name){
+                var cityToPinyin = {
+                    "南昌市": "nanchang",
+                    "景德镇市": "jingdezhen",
+                    "萍乡市": "pingxiang",
+                    "九江市": "jiujiang",
+                    "新余市": "xinyu",
+                    "鹰潭市": "yingtan",
+                    "赣州市": "ganzhou",
+                    "吉安市": "jian",
+                    "宜春市": "yichun",
+                    "抚州市": "fuzhou",
+                    "上饶市": "shangrao"
+                };
+                var breadcrumb = {
+                    type: 'group',
+                    id: name,
+                    left: 55,
+                    top: 0,
+                    children: [{
+                        type: 'polyline',
+                        left: -82,
+                        top: -5,
+                        shape: {
+                            points: line
+                        },
+                        style: {
+                            stroke: '#fff',
+                            key: name,
+                            lineWidth: 2,
+                        },
+                        onclick: function(){
+                            var name = this.style.key;
+                            handleEvents.resetOption(chart, option, name);
+                        }
+                    }, {
+                        type: 'text',
+                        left: -68,
+                        top: 'middle',
+                        style: {
+                            text: name,
+                            textAlign: 'center',
+                            fill: style.textColor,
+                            font: style.font
+                        },
+                        onclick: function(){
+                            var name = this.style.text;
+                            handleEvents.resetOption(chart, option, name);
+                        }
+                    }, {
+                        type: 'text',
+                        left: -68,
+                        top: 5,
+                        style: {
+
+                            name: name,
+                            text: cityToPinyin[name] ? cityToPinyin[name].toUpperCase() : '',
+                            textAlign: 'center',
+                            fill: style.textColor,
+                            font: '10px "Microsoft YaHei", sans-serif',
+                        },
+                        onclick: function(){
+                            // console.log(this.style);
+                            var name = this.style.name;
+                            handleEvents.resetOption(chart, option, name);
+                        }
+                    }]
+                }
+
+                pos.leftCur += pos.leftPlus;
+
+                return breadcrumb;
+            },
+
+            // 设置effectscatter
+            initSeriesData: function(data){
+                var temp = [];
+                for(var i = 0;i < data.length;i++){
+                    var geoCoord = geoCoordMap[data[i].name];
+                    if(geoCoord){
+                        temp.push({
+                            name: data[i].name,
+                            value: geoCoord.concat(data[i].value, data[i].level)
+                        });
+                    }
+                };
+                return temp;
+            },
+
+            zoomAnimation: function(){
+                var count = null;
+                var zoom = function(per){
+                    if(!count) count = per;
+                    count = count + per;
+                    // console.log(per,count);
+                    chart.setOption({
+                        geo: {
+                            zoom: count
+                        }
+                    });
+                    if(count < 1) window.requestAnimationFrame(function(){
+                        zoom(0.2);
+                    });
+                };
+                window.requestAnimationFrame(function(){
+                    zoom(0.2);
+                });
+            }
+        };
+
+        var option = {
+            backgroundColor: opt.bgColor,
+            graphic: [{
+                type: 'group',
+                left: -5,
+                top: 0,
+                children: [{
+                    type: 'line',
+                    left: 0,
+                    top: -20,
+                    shape: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 60,
+                        y2: 0
+                    },
+                    style: {
+                        stroke: style.lineColor,
+                    }
+                }, {
+                    type: 'line',
+                    left: 0,
+                    top: 20,
+                    shape: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 60,
+                        y2: 0
+                    },
+                    style: {
+                        stroke: style.lineColor,
+                    }
+                }]
+            }, {
+                id: name[idx],
+                type: 'group',
+                left:  2,
+                top: 0,
+                children: [{
+                    type: 'polyline',
+                    left: 10,
+                    top: -12,
+                    shape: {
+                        points: line
+                    },
+                    style: {
+                        stroke: 'transparent',
+                        key: name[0]
+                    },
+                    onclick: function(){
+                        var name = this.style.key;
+                        handleEvents.resetOption(chart, option, name);
+                    }
+                }, {
+                    type: 'text',
+                    left: 0,
+                    top: 'middle',
+                    style: {
+                        text: name[0] === '江西' ? '江西省' : name[0],
+                        textAlign: 'center',
+                        fill: style.textColor,
+                        font: style.font
+                    },
+                    onclick: function(){
+                        handleEvents.resetOption(chart, option, '江西');
+                    }
+                }, {
+                    type: 'text',
+                    left: 0,
+                    top: 5,
+                    style: {
+                        text: 'JIANGXI',
+                        textAlign: 'center',
+                        fill: style.textColor,
+                        font: '10px "Microsoft YaHei", sans-serif',
+                    },
+                    onclick: function(){
+                        handleEvents.resetOption(chart, option, '江西');
+                    }
+                }]
+            }],
+            geo: {
+                map: opt.mapName,
+                // roam: true,
+                zoom: 1,
+                label: {
+                    normal: {
+                        show: true,
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    },
+                    emphasis: {
+                        textStyle: {
+                            color: '#fff'
+                        }
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        borderColor: 'rgba(147, 235, 248, 1)',
+                        borderWidth: 1,
+                        areaColor: {
+                            type: 'radial',
+                            x: 0.5,
+                            y: 0.5,
+                            r: 0.8,
+                            colorStops: [{
+                                offset: 0,
+                                color: 'rgba(147, 235, 248, 0)' // 0% 处的颜色
+                            }, {
+                                offset: 1,
+                                color: 'rgba(147, 235, 248, .2)' // 100% 处的颜色
+                            }],
+                            globalCoord: false // 缺省为 false
+                        },
+                        shadowColor: 'rgba(128, 217, 248, 1)',
+                        // shadowColor: 'rgba(255, 255, 255, 1)',
+                        shadowOffsetX: -2,
+                        shadowOffsetY: 2,
+                        shadowBlur: 10
+                    },
+                    emphasis: {
+                        areaColor: '#389BB7',
+                        borderWidth: 0
+                    }
+                },
+                regions: opt.activeArea.map(function(item){
+                    if(typeof item !== 'string'){
+                        return {
+                            name: item.name,
+                            itemStyle: {
+                                normal: {
+                                    areaColor: item.areaColor || '#389BB7'
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: item.showLabel,
+                                    textStyle: {
+                                        color: '#fff'
+                                    }
+                                }
+                            }
+                        }
+                    }else{
+                        return {
+                            name: item,
+                            itemStyle: {
+                                normal: {
+                                    borderColor: '#91e6ff',
+                                    areaColor: '#389BB7'
+                                }
+                            }
+                        }
+                    }
+                })
+            },
+            series: [{
+                type: 'effectScatter',
+                coordinateSystem: 'geo',
+                // symbol: 'diamond',
+                showEffectOn: 'render',
+                rippleEffect: {
+                    period: 15,
+                    scale: 6,
+                    brushType: 'fill'
+                },
+                hoverAnimation: true,
+                itemStyle: {
+                    normal: {
+                        color: function(params){
+                            return levelColorMap[params.value[3]];
+                        },
+                        shadowBlur: 10,
+                        shadowColor: '#333'
+                    }
+                },
+                data: handleEvents.initSeriesData(opt.data)
+            }]
+        };
+
+        chart.setOption(option);
+        // 添加事件
+        chart.on('click', function(params){
+            var _self = this;
+            if(opt.goDown && params.name !== name[idx]){
+                if(cityMap[params.name]){
+                    var url = cityMap[params.name];
+                    $.get(url, function(response){
+                        // console.log(response);
+                        curGeoJson = response;
+                        echarts.registerMap(params.name, response);
+                        handleEvents.resetOption(_self, option, params.name);
+                    });
+                }
+            }
+        });
+
+        chart.setMap = function(mapName){
+            var _self = this;
+            if(mapName.indexOf('市') < 0) mapName = mapName + '市';
+            var citySource = cityMap[mapName];
+            if(citySource){
+                var url = './map/' + citySource + '.json';
+                $.get(url, function(response){
+                    // console.log(response);
+                    curGeoJson = response;
+                    echarts.registerMap(mapName, response);
+                    handleEvents.resetOption(_self, option, mapName);
+                });
+            }
+            // handleEvents.resetOption(this, option, mapName);
+        };
+
+        return chart;
+    };
+
+    $.getJSON(jiangxi, function(geoJson){
+        echarts.registerMap('江西', geoJson);
+        var myChart = echarts.extendsMap('distributeChart', {
+            bgColor: 'raba(0,0,0,0)', // 画布背景色
+            mapName: '江西',    // 地图名
+            goDown: true,       // 是否下钻
+            // 下钻回调
+            callback: function(name, option, instance){
+                console.log(name, option, instance);
+            },
+            // 数据展示            	
+            data: [{
+                name: '南昌',
+                value: 10,
+                level: 1
+            }, {
+                name: '景德镇',
+                value: 12,
+                level: 2
+            }, {
+                name: '萍乡',
+                value: 11,
+                level: 3
+            }, {
+                name: '赣州',
+                value: 16,
+                level: 2
+            }, {
+                name: '吉安',
+                value: 12,
+                level: 1
+            }]
+        });
+    })
+    //平台用户月活跃率
+    var xwChart=echarts.init(document.getElementById('activeChart'));
+    var xwOption = {
+        title: {
+            text: '月活跃率',
+            left: 'center',
+            show:true,
+            bottom:10,
+            textStyle:{
+                color:'#34b1c5',
+                fontSize:14
+            }
+        },
+        series: [
+            {
+                type: 'pie',
+                center: ['50%', '50%'],
+                radius: ['60%', '80%'],
+
+                data: [{
+                    value: 7722,
+                    name: '月活跃率',
+                    itemStyle: {
+                        normal: {
+                            color: '#34b1c5'
+                        }
+                    },
+                    label: {
+                        normal: {
+                            position: 'center',
+                            formatter: '77.22%',
+                            textStyle: {
+                                color: '#34b1c5',
+                                fontSize: 14
+
+                            }
+                        }
+                    }
+                }, {
+                    value: 2278,
+                    tooltip: {
+                        show: false
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(18,18,19,.9)'
+                        }
+                    },
+                    labelLine:{
+                        normal:{
+                            show:false
+                        },
+                        emphasis:{
+                            show:false
+                        }
+                    }
+                }]
+            }]
+    };
+    xwChart.setOption(xwOption);
+    //平台用户
+    var userChart=echarts.init(document.getElementById('userChart'));
+    var userOption =  {
+        title: {
+            text: '平台访问量',
+            textStyle:{
+                color:'#fff',
+                fontWeight:100,
+                fontSize:14
+            }
+        },
+        xAxis: {
+            type: 'category',
+            axisTick:{
+                show:false
+            },
+            splitLine:{
+                show:true,
+                lineStyle: {
+                    color:'rgba(255,255,255,.02)'
+                }
+            },
+            axisLine:{
+                color:'#122d38',
+                lineStyle:{
+                    color:'#34b1c5'
+                }
+            },
+            data: ['02/01', '02/02', '02/03', '02/04', '02/05', '02/06', '02/07']
+        },
+        yAxis: {
+            type: 'value',
+            position:'right',
+            axisTick:{
+                show:false
+            },
+            splitLine: {
+                show: true,
+                lineStyle: {
+                    color:'rgba(255,255,255,.02)'
+                }
+            },
+            axisLine:{
+                show:false,
+                lineStyle:{
+                    color:'#34b1c5'
+                }
+            }
+        },
+        legend: {
+            itemWidth:0,
+            itemHeight:0,
+            textStyle:{
+                color:'#34b1c5'
+            },
+            inactiveColor:'#fff',
+            selected: {
+                // 选中'系列1'
+                '浏览次数': true,
+                // 不选中'系列2'
+                '独立访客': false
+            },
+            data:['浏览次数', '独立访客']
+        },
+        series: [{
+            data: [28200, 43300, 39010, 27000, 42900, 33300, 28000],
+            type: 'line',
+            name:'浏览次数',
+            symbol:false,
+            symbolSize:2,
+            itemStyle: {
+                normal: {
+                    color: '#34b1c5',
+                    borderColor:'rgba(71,196,197, .2)',
+                    borderWidth: 2
+
+                }
+            },
+            smooth: true
+        },{
+            data: [43300, 30500, 21901, 41200, 32600,21700, 34800],
+            type: 'line',
+            name:'独立访客',
+            symbol:false,
+            symbolSize:2,
+            itemStyle: {
+                normal: {
+                    color: '#34b1c5',
+                    borderColor:'rgba(71,196,197, .2)',
+                    borderWidth: 2
+
+                }
+            },
+            smooth: true
+        }]
+    };
+    userChart.setOption(userOption);
+    var flag=true;
+    setInterval(function () {
+        flag=!flag;
+        userOption.legend.selected={
+            // 选中'系列1'
+            '浏览次数': flag,
+            // 不选中'系列2'
+            '独立访客': !flag
+        };
+        userChart.setOption(userOption);
+    },3000)
+    //开通空间
+    var spaceChart=echarts.init(document.getElementById('spaceChart'));
+    var spaceOption = {
+        series: [
+            {
+                type: 'pie',
+                center: ['30%', '40%'],
+                radius: ['50%', '60%'],
+                data: [{
+                    value: 68,
+                    name: '用户活跃',
+                    itemStyle: {
+                        normal: {
+                            color: '#34b1c5'
+                        }
+                    },
+                    label: {
+                        normal: {
+                            position: 'center',
+                            formatter: '68%\n活跃率',
+                            textStyle: {
+                                color: '#34b1c5',
+                                fontSize: 12
+
+                            }
+                        }
+                    }
+                }, {
+                    value: 32,
+                    tooltip: {
+                        show: false
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(18,18,19,.9)'
+                        }
+                    },
+                    labelLine:{
+                        normal:{
+                            show:false
+                        },
+                        emphasis:{
+                            show:false
+                        }
+                    }
+                }]
+            },{
+                type: 'pie',
+                center: ['70%', '40%'],
+                radius: ['50%', '60%'],
+                data: [{
+                    value: 100,
+                    name: '用户活跃',
+                    itemStyle: {
+                        normal: {
+                            color: '#34b1c5'
+                        }
+                    },
+                    label: {
+                        normal: {
+                            position: 'center',
+                            formatter: '100%\n开通率',
+                            textStyle: {
+                                color: '#34b1c5',
+                                fontSize: 12
+
+                            }
+                        }
+                    }
+                }, {
+                    value: 0,
+                    tooltip: {
+                        show: false
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(18,18,19,.9)'
+                        }
+                    },
+                    labelLine:{
+                        normal:{
+                            show:false
+                        },
+                        emphasis:{
+                            show:false
+                        }
+                    }
+                }]
+            }]
+    };
+    spaceChart.setOption(spaceOption);
+    //资源建设
+    var resChart=echarts.init(document.getElementById('resChart'));
+    var resOption = {
+        series: [
+            {
+                type: 'pie',
+                center: ['32%', '45%'],
+                radius: ['30%', '40%'],
+                data: [{
+                    value: 25,
+                    name: '用户活跃',
+                    itemStyle: {
+                        normal: {
+                            color: '#34b1c5'
+                        }
+                    },
+                    label: {
+                        normal: {
+                            position: 'center',
+                            formatter: '25%',
+                            textStyle: {
+                                color: '#34b1c5',
+                                fontSize: 14
+
+                            }
+                        }
+                    }
+                }, {
+                    value: 75,
+                    tooltip: {
+                        show: false
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(18,18,19,.9)'
+                        }
+                    },
+                    labelLine:{
+                        normal:{
+                            show:false
+                        },
+                        emphasis:{
+                            show:false
+                        }
+                    }
+                }]
+            },{
+                type: 'pie',
+                center: ['68%', '45%'],
+                radius: ['30%', '40%'],
+                data: [{
+                    value: 68,
+                    name: '用户活跃',
+                    itemStyle: {
+                        normal: {
+                            color: '#34b1c5'
+                        }
+                    },
+                    label: {
+                        normal: {
+                            position: 'center',
+                            formatter: '68%',
+                            textStyle: {
+                                color: '#34b1c5',
+                                fontSize: 14
+
+                            }
+                        }
+                    }
+                }, {
+                    value: 32,
+                    tooltip: {
+                        show: false
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: 'rgba(18,18,19,.9)'
+                        }
+                    },
+                    labelLine:{
+                        normal:{
+                            show:false
+                        },
+                        emphasis:{
+                            show:false
+                        }
+                    }
+                }]
+            }]
+    };
+    resChart.setOption(resOption);
+    //应用接入
+    var appChart=echarts.init(document.getElementById('appChart'));
+    var appOption = {
+        color: ['#3398DB'],
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        grid: {
+            top:'8%',
+            bottom: '10%',
+            containLabel: true
+        },
+        xAxis : {
+            type : 'category',
+            data : ['智慧教学', '智慧学习', '智慧评价', '智慧研究'],
+            axisTick: {
+                show: false
+            },
+            axisLine:{
+                lineStyle:{
+                    color:'#34b1c5'
+                }
+            }
+        },
+        yAxis : {
+            type : 'value',
+            splitLine: {
+                show: true,
+                lineStyle: {
+                    color:'rgba(255,255,255,.02)'
+                }
+            },
+            axisLine:{
+                show:false
+            },
+            axisTick: {
+                show: false
+            },
+            axisLabel: {
+                show: false
+            }
+        },
+        series : [
+            {
+                name:'应用接入',
+                type:'bar',
+                barWidth: 3,
+                data:[4, 3, 2, 1]
+            }
+        ]
+    };
+    appChart.setOption(appOption);
+    //课程
+    var courseChart=echarts.init(document.getElementById('courseChart'));
+    var courseOption = {
+        color: ['#3398DB'],
+        tooltip : {
+            trigger: 'axis',
+            axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+                type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+        },
+        grid: {
+            top:'8%',
+            bottom: '10%',
+            containLabel: true
+        },
+        xAxis : {
+            type : 'category',
+            data : ['小学', '初中', '高中', '专题'],
+            axisTick: {
+                show: false
+            },
+            axisLine:{
+                lineStyle:{
+                    color:'#34b1c5'
+                }
+            }
+        },
+        yAxis : {
+            type : 'value',
+            splitLine: {
+                show: true,
+                lineStyle: {
+                    color:'rgba(255,255,255,.02)'
+                }
+            },
+            axisLine:{
+                show:false
+            },
+            axisTick: {
+                show: false
+            },
+            axisLabel: {
+                show: false
+            }
+        },
+        series : [
+            {
+                name:'课程',
+                type:'bar',
+                barWidth: 3,
+                data:[93, 80, 34, 53]
+            }
+        ]
+    };
+    courseChart.setOption(courseOption);
+    //区域使用排行Top10
+    var orderChart=echarts.init(document.getElementById('orderChart'));
+    var orderOption = {
+        tooltip: { //提示框组件
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow',
+                label: {
+                    backgroundColor: '#6a7985'
+                }
+            },
+        },
+        grid: {
+            left: '1%',
+            right: '5%',
+            bottom: '5%',
+            top:10,
+            padding:'0 0 10 0',
+            containLabel: true,
+        },
+        yAxis: [
+            {
+                type: 'category',
+                boundaryGap: true,//坐标轴两边留白
+                inverse: 'true',
+                data: ['福州市', '南平市', '三明市', '莆田市', '泉州市', '漳州市', '龙岩市', '厦门市', '宁德市','平潭综合试验区'],
+                axisLabel: { //坐标轴刻度标签的相关设置。
+                    show:false,
+                },
+                axisTick:{//坐标轴刻度相关设置。
+                    show: false,
+                },
+                axisLine:{
+                    show: false
+                },
+                splitLine: { //坐标轴在 grid 区域中的分隔线。
+                    show: false,
+                }
+            }
+        ],
+        xAxis: [
+            {
+                type: 'value',
+                axisLabel: {
+                    show:false
+                },
+                axisLine:{
+                    show: false
+                },
+                axisTick:{
+                    show: false
+                },
+                splitLine: {
+                    show: false,
+                }
+
+            }
+        ],
+        series : {
+            name:'使用量',
+            type:'bar',
+            data:[381550, 305240, 297609,286162,267085,228930, 213668, 152620, 175513, 87756],
+            barWidth: 6,
+            barGap:0,//柱间距离
+            label: {//图形上的文本标签
+                normal: {
+                    show: true,
+                    position: [-80,-5],
+                    formatter: '{c} ',
+                    textStyle: {
+                        color: '#34b1c5',
+                        fontStyle: 'normal',
+                        fontFamily: '微软雅黑',
+                        fontSize: 16,
+                    },
+                },
+            },
+            itemStyle: {//图形样式
+                normal: {
+                    // barBorderRadius: [5, 5, 5, 5],
+                    color: new echarts.graphic.LinearGradient(1, 0, 0, 0, [{
+                        offset: 1, color: '#2b92a4'
+                    }, {
+                        offset: 0, color:'#57e6ff'
+                    }], false),
+                },
+            },
+        }
+    };
+    orderChart.setOption(orderOption);
+</script>
+</body>
+</html>

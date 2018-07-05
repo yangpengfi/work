@@ -1,0 +1,191 @@
+
+body{
+    width:100%;height:100%;
+    background-color:#0a0f1d ;
+    color: #fff;
+}
+nav{
+    width: 100%;
+    height: 70px;
+    background: url("../images/line.png") no-repeat center bottom;
+    padding-top: 17px;
+    box-sizing: border-box;
+}
+.logo{
+    width: 25%;
+    color:#32aabd;
+}
+.nav{
+    width: 50%;
+}
+.nav ul{
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+    margin-left: 15%;
+}
+.nav a{
+    font-size: 20px;
+    color: #ffffff;
+}
+h2{
+    width: 80%;
+    height: 67px;
+    margin: 15px auto;
+    font-family: PingFang-SC-Regular;
+    font-size: 20px;
+    padding-left: 35px;
+    box-sizing: border-box;
+    font-weight: normal;
+    line-height: 67px;
+    color: #ffffff;
+    background: url("../images/Angleblock.png") no-repeat 0 0,url("../images/Angleblock.png") no-repeat right,url("../images/lineblock.png") repeat-x 0 3px;
+}
+.rightTop{
+    width: 25%;
+    font-family: PingFang-SC-Regular;
+    font-size: 20px;
+    color: #34b1c5;
+    padding-left: 15%;
+}
+.pageUp{
+    height: 35%;
+    border-bottom: 1px solid #233c46;
+}
+.pageUp .pageLeft{
+    width: 50%;
+    height: 100%;
+    border-right: 1px solid #233c46;
+}
+.distribute{
+    width: 80%;
+    margin: 0 auto;
+    height: 100%;
+}
+.distribute>div{
+    margin-top: 1%;
+    float: left;
+    width: 50%;
+    height: 96%;
+}
+.dataShow{
+    padding-top: 60px;
+    line-height: 40px;
+}
+.dataShow p>span:first-child{
+    display: inline-block;
+    width: 100px;
+    font-size: 20px;
+    text-align: left;
+}
+.dataShow p>span:last-child{
+    margin-left: 50px;
+    font-size: 20px;
+    color: #34b1c5;
+    text-align: left;
+    display: inline-block;
+    width: 95px;
+}
+#activeChart{
+    float: left;
+    width: 20%;
+    height: 250px;
+    margin-left: 5%;
+}
+#userChart{
+    float: left;
+    width: 60%;
+    height: 250px;
+    margin-left: 5%;
+}
+
+.pageUp .pageRight{
+    width: 50%;
+}
+.pageDown{
+    height: 57%;
+}
+.pageDown .pageLeft{
+    width: 66%;
+    height: 100%;
+    overflow: hidden;
+}
+.pageDown .pageLeft>div>div{
+    width: 80%;
+    height: 140px;
+    margin: 0 auto;
+}
+.pageDown .pageLeft>div{
+    width: 50%;
+    height: 50%;
+    float: left;
+    border-right: 1px solid #233c46;
+}
+.page1,.page2{
+    border-bottom: 1px solid #233c46;
+    position: relative;
+}
+.pieTitle{
+    position: absolute;
+    top: 85%;
+    left: 10%;
+}
+.pieTitle>span{
+    font-size: 12px;
+}
+.page3>div,.page4>div{
+    height: 170px!important;
+}
+.pageLeft div p{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+.page1 p>span{
+    display: inline-block;
+    font-size:12px ;
+    margin-left: 70px;
+    max-width: 70px;
+}
+.page1 p>span>span{
+    line-height: 20px;
+}
+.page1 p>span>span:last-child,
+.page2 p>span>span:last-child{
+    color: #34b1c5;
+}
+.page1 p>span:first-child{
+     margin-left: 35px;
+     font-size: 16px;
+     color: #34b1c5;
+     line-height: 40px;
+ }
+.page2 p>span{
+    display: inline-block;
+    font-size:12px ;
+    text-align: center;
+    margin: 0 30px;
+    max-width: 90px;
+}
+h2 span{
+    color: #34b1c5;
+    font-weight: normal;
+    font-size: 18px;
+    margin-right: 25px;
+}
+.pageDown .pageRight{
+    width: 33%;
+    height: 100%;
+    overflow: hidden;
+}
+#orderChart,.topLeft{
+    width: 40%;
+    height: calc(100% - 100px);
+}
+.topLeft{
+    margin-left: 10%;
+    margin-top: 10px;
+    line-height: 40px;
+    color: #34b1c5;
+    font-size: 18px;
+}

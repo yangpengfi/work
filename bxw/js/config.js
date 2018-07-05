@@ -29,7 +29,7 @@ var parameter={
     type:1
 };
 ajax({
-    url:'http://192.168.8.251/banxue/app/user/login.do',
+    url:hostIp+'/app/user/login.do',
     method:'POST',
     async: false,
     data:parameter,
